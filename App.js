@@ -57,35 +57,43 @@ import FooterTab from './components/footers/FooterTab';
 
 
 
+
 const App = () => {
 
-  // const backgroundStyle = {
-  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  // };
+  // login = async (email, password) => {
+  //   const res = await axios.post(
+  //     'http://test.arwaj.com.pk:8085/sims_in/api/login',
+  //     { email, password },
+  //   ).catch((res) => {
+  //     return { status: 401, message: 'Unauthorized' }
+  //   })
+    // const backgroundStyle = {
+    //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    // };
 
-  return <AppRoutes />
+    return <AppRoutes />
 
-};
+  };
 
 
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    // fontSize: 24,
-    // fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    // fontSize: 18,
-    // fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+  const styles = StyleSheet.create({
+    sectionContainer: {
+      marginTop: 32,
+      paddingHorizontal: 24,
+    },
+    sectionTitle: {
+      // fontSize: 24,
+      // fontWeight: '600',
+    },
+    sectionDescription: {
+      marginTop: 8,
+      // fontSize: 18,
+      // fontWeight: '400',
+    },
+    highlight: {
+      fontWeight: '700',
+    },
+  });
 
-export default App;
+  export default App;
