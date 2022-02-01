@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Container,
   Header,
@@ -11,8 +11,11 @@ import {
   Input,
   Button,
 } from 'native-base';
-import { Actions } from 'react-native-router-flux';
-export default class Login extends Component {
+import {Actions} from 'react-native-router-flux';
+import {connect} from 'react-redux';
+import {login} from '../../redux/actions';
+import {LOGIN} from '../../constants';
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +23,23 @@ export default class Login extends Component {
       password: '',
       hidePassword: true,
     };
+  }
+
+  componentDidMount() {
+    this.props.dispatch(
+      login({
+        requestDetails: {
+          requestUrl: '/login',
+          requestMethod: 'POST',
+          requestHeaders: {},
+          requestBody: {
+            user_no: '',
+            user_password: '',
+          },
+        },
+        reducerDetails: {actionType: LOGIN},
+      }),
+    );
   }
 
   // login = async (email, password) => {
@@ -30,27 +50,30 @@ export default class Login extends Component {
   //     return { status: 401, message: 'Unauthorized' }
   //   })
   userLogin = () => {
-    console.log("In userlogin === ", this.state)
+    console.log('In userlogin === ', this.state);
     var email = this.state.username;
     var password = this.state.password;
-    if (email && password) { // if validation fails, value will be null
-      fetch("http://test.arwaj.com.pk:8085/sims_in/api/login ", {
-        method: "POST",
+    if (email && password) {
+      // if validation fails, value will be null
+      fetch('http://test.arwaj.com.pk:8085/sims_in/api/login ', {
+        method: 'POST',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username: email,
           password: password,
-        })
-      }).then((response) =>{
-        console.log("response === ", response)
-      }).catch(ex => {
-        console.log("ex === ", ex)
+        }),
       })
-    }}
-    
+        .then(response => {
+          console.log('response === ', response);
+        })
+        .catch(ex => {
+          console.log('ex === ', ex);
+        });
+    }
+  };
 
   handleHidePassword() {
     console.log('Hi');
@@ -62,15 +85,16 @@ export default class Login extends Component {
     });
   }
 
-  handleEmail = (value) => {
-    this.setState({email: value})
-  }
+  handleEmail = value => {
+    this.setState({email: value});
+  };
 
-  handlePassword = (value) => {
-    this.setState({password: value})
-  }
+  handlePassword = value => {
+    this.setState({password: value});
+  };
 
   render() {
+    console.log('this.props in Login === ', this.props);
     const uri =
       'https://facebook.github.io/react-native/docs/assets/favicon.png';
     return (
@@ -93,7 +117,7 @@ export default class Login extends Component {
             <Text>Circular Thumbnail</Text>
             <Thumbnail small source={{uri: uri}} />
             <Thumbnail source={{uri: uri}} /> */}
-        <Thumbnail large source={{ uri: uri }} />
+        <Thumbnail large source={{uri: uri}} />
         <View
           style={{
             width: '90%',
@@ -104,20 +128,20 @@ export default class Login extends Component {
             alignItems: 'center',
             // backgroundColor: 'red',
           }}>
-          <View style={{ width: '100%' }}>
+          <View style={{width: '100%'}}>
             <Item>
               <Icon active name="user" type="Entypo" />
-              <Input placeholder="Enter Email" 
-              onChangeText = {this.handleEmail}/>
-              
+              <Input
+                placeholder="Enter Email"
+                onChangeText={this.handleEmail}
+              />
             </Item>
             <Item>
               <Icon name="lock" type="Entypo" />
               <Input
                 secureTextEntry={this.state.hidePassword}
                 placeholder="Enter Password"
-                onChangeText = {this.handlePassword}
-
+                onChangeText={this.handlePassword}
               />
               <Icon
                 name="eye"
@@ -126,7 +150,7 @@ export default class Login extends Component {
               />
             </Item>
           </View>
-          <View style={{ width: '100%' }}>
+          <View style={{width: '100%'}}>
             <Button
               style={{
                 width: '100%',
@@ -147,3 +171,9 @@ export default class Login extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  console.log('state in Login === ', state);
+  return state;
+}
+
+export default connect(state => state)(Login);

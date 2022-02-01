@@ -1,4 +1,4 @@
-const baseURL = 'URL';
+const baseURL = 'http://test.arwaj.com.pk:8085/sims_in/api';
 
 async function apiRequest(
   requestUrl,
@@ -7,7 +7,11 @@ async function apiRequest(
   requestBody,
 ) {
   try {
-    const response = await fetch(`${baseURL}/${requestUrl}`, {
+    console.log(`url === ${baseURL}${requestUrl}`);
+    console.log(`requestMethod === ${requestMethod}`);
+    console.log(`requestHeaders === ${requestHeaders}`);
+    console.log(`requestBody === ${requestBody}`);
+    const response = await fetch(`${baseURL}${requestUrl}`, {
       method: requestMethod,
       headers: {
         'Content-Type': 'application/json',
@@ -16,8 +20,10 @@ async function apiRequest(
       body: JSON.stringify(requestBody),
     });
     let result = await response.json();
+    console.log('result === ', result);
     return result;
   } catch (ex) {
+    console.log('ex in api === ', ex);
     return ex;
   }
 }
