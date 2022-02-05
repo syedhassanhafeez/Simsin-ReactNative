@@ -39,9 +39,9 @@ export default class Fee extends Component {
     };
     return (
       <View style={{backgroundColor: 'white'}}>
-        <PickerInput />
+        {/* <PickerInput /> */}
         <ScrollView>
-        <View>
+          <View>
             <CardItemBordered
               cardStyle={{
                 marginLeft: 0,
@@ -51,18 +51,31 @@ export default class Fee extends Component {
                 textAlign: 'center',
                 backgroundColor: '#006add',
               }}
-
               headerText={[
-                <Text style={{ color: 'white', width: '100%' }}>
+                <Text style={{color: 'white', width: '100%'}}>
                   {`Staff Attendance Summary`}
-                </Text>
+                </Text>,
               ]}
-              
               useOtherTag={true}
-              headerStyle={{ flexDirection: "row", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+              headerStyle={{
+                flexDirection: 'row',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
               cardBody={[
-                <View style={{ width: "100%", height: "auto", flexDirection: "row", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
-                  <View style={{ width: '33%' }}>
+                <View
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    flexDirection: 'row',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                  }}>
+                  <View style={{width: '33%'}}>
                     <CardItemBordered
                       useOtherTag={true}
                       headerText={[
@@ -74,10 +87,23 @@ export default class Fee extends Component {
                           }}>{`Total\nStaff\n`}</Text>,
                       ]}
                       useDividerTag={true}
-                      headerStyle={{ fontSize: 12, textAlign: 'center', color: 'grey' }}
-                      cardBody={[<H2 style={{ color: '#006add', fontWeight: 'bold', width: '100%', textAlign: 'center', marginTop: -10 }}>55</H2>]}
-
-
+                      headerStyle={{
+                        fontSize: 12,
+                        textAlign: 'center',
+                        color: 'grey',
+                      }}
+                      cardBody={[
+                        <H2
+                          style={{
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            width: '100%',
+                            textAlign: 'center',
+                            marginTop: -10,
+                          }}>
+                          55
+                        </H2>,
+                      ]}
                     />
                   </View>
                   <View
@@ -95,8 +121,23 @@ export default class Fee extends Component {
                           }}>{`Today's\nAbsent\n`}</Text>,
                       ]}
                       useDividerTag={true}
-                      headerStyle={{ fontSize: 12, textAlign: 'center', color: 'grey' }}
-                      cardBody={[<H2 style={{ color: '#006add', fontWeight: 'bold', width: '100%', textAlign: 'center', marginTop: -10 }}>3</H2>]}
+                      headerStyle={{
+                        fontSize: 12,
+                        textAlign: 'center',
+                        color: 'grey',
+                      }}
+                      cardBody={[
+                        <H2
+                          style={{
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            width: '100%',
+                            textAlign: 'center',
+                            marginTop: -10,
+                          }}>
+                          3
+                        </H2>,
+                      ]}
                     />
                   </View>
                   <View style={{width: '33%'}}>
@@ -111,9 +152,23 @@ export default class Fee extends Component {
                           }}>{`Today's\nLate\n`}</Text>,
                       ]}
                       useDividerTag={true}
-                      headerStyle={{ fontSize: 12, textAlign: 'center', color: 'grey' }}
-                      cardBody={[<H2 style={{ color: '#006add', fontWeight: 'bold', width: '100%', textAlign: 'center', marginTop: -10 }}>235</H2>]}
-
+                      headerStyle={{
+                        fontSize: 12,
+                        textAlign: 'center',
+                        color: 'grey',
+                      }}
+                      cardBody={[
+                        <H2
+                          style={{
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            width: '100%',
+                            textAlign: 'center',
+                            marginTop: -10,
+                          }}>
+                          235
+                        </H2>,
+                      ]}
                     />
                   </View>
                 </View>,
@@ -124,10 +179,12 @@ export default class Fee extends Component {
                   height: 'auto',
                 },
               ]}
-              cardBodyStyle={[{
-                backgroundColor: "#006add", height: "auto"
-
-              }]}
+              cardBodyStyle={[
+                {
+                  backgroundColor: '#006add',
+                  height: 'auto',
+                },
+              ]}
             />
           </View>
           <View>
@@ -149,7 +206,6 @@ export default class Fee extends Component {
               ]}
               headerStyle={{
                 width: '100%',
-                
               }}
               cardBody={[<CustomTable2 />]}
             />
@@ -164,10 +220,15 @@ export default class Fee extends Component {
                 textAlign: 'center',
               }}
               useOtherTag={true}
-              headerText={[<Text style={{ color: '#006add', width: "100%"}}>{`Top 5 Late staff (Current month)`}</Text>]}
-              headerStyle={{ width: "100%"}}
+              headerText={[
+                <Text
+                  style={{
+                    color: '#006add',
+                    width: '100%',
+                  }}>{`Top 5 Late staff (Current month)`}</Text>,
+              ]}
+              headerStyle={{width: '100%'}}
               cardBody={[<CustomTable5 />]}
-
             />
           </View>
           {/* <View style={{
@@ -220,14 +281,12 @@ export default class Fee extends Component {
                   style={{
                     color: 'white',
                     width: '100%',
-                    
                   }}>
                   {'Deducted Days & LWP Amount'}
                 </Text>,
               ]}
               headerStyle={{
                 width: '100%',
-                
               }}
               useOtherTag={true}
               cardBody={[

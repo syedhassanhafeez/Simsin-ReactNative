@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Container,
   Header,
@@ -12,45 +12,60 @@ import {
   Icon,
   H3,
 } from 'native-base';
-export default class PickerInputExample extends Component {
+import {connect} from 'react-redux';
+import {changeCampus} from '../../redux/actions';
+import {CHANGECAMPUS} from '../../constants';
+class PickerInputExample extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected2: 'key0',
+      selected2: '',
     };
   }
+
+  componentDidUpdate() {
+    if (!this.state.selected2) {
+      this.setState({
+        selected2: this.props.auth.loggedInUserDetails.user_campus[0].campus_id,
+      });
+    }
+  }
   onValueChange2(value) {
-    this.setState({
-      selected2: value,
-    });
+    this.props.dispatch(
+      changeCampus({
+        type: CHANGECAMPUS,
+        payload: {id: value},
+      }),
+    );
   }
   render() {
     return (
-      <View style={{ padding: 20 }}>
-        <H3 style={{ color: '#006add' }}> {`XYZ School Name `} </H3>
-        <Item bordered regular style={{ borderRadius: 10, borderColor: 'grey' }}  >
+      <View style={{padding: 20}}>
+        <H3 style={{color: '#006add'}}>
+          {' '}
+          {this.props.auth.loggedInUserDetails.school_name}{' '}
+        </H3>
+        <Item bordered regular style={{borderRadius: 10, borderColor: 'grey'}}>
           <Picker
             mode="dropdown"
             iosIcon={<Icon name="arrow-down" />}
-            style={{ color: '#37b349' }}
+            style={{color: '#37b349'}}
             placeholder="Select your SIM"
-            placeholderStyle={{ color: '#bfc6ea' }}
+            placeholderStyle={{color: '#bfc6ea'}}
             placeholderIconColor="#007aff"
-            selectedValue={this.state.selected2}
+            selectedValue={this.props.auth.selectedCampusDetails.campus_id}
             onValueChange={this.onValueChange2.bind(this)}>
-            <Picker.Item label="Campus 1" value="key0" />
-            <Picker.Item label="Campus 2" value="key1" />
-            <Picker.Item label="Campus 3" value="key2" />
-            <Picker.Item label="Campus 4" value="key3" />
-            <Picker.Item label="Campus 5" value="key4" />
+            {this.props.auth.loggedInUserDetails.user_campus.map(item => (
+              <Picker.Item label={item.campus_name} value={item.campus_id} />
+            ))}
           </Picker>
-
         </Item>
       </View>
     );
   }
 }
-{/* <Select
+{
+  /* <Select
         selectedValue={this.state.selected2}
         minWidth="200"
         accessibilityLabel="Choose Service"
@@ -66,4 +81,12 @@ export default class PickerInputExample extends Component {
         <Select.Item label="Cross Platform Development" value="cross" />
         <Select.Item label="UI Designing" value="ui" />
         <Select.Item label="Backend Development" value="backend" />
-      </Select> */}
+      </Select> */
+}
+export default connect(state => {
+  console.log('state === ', state);
+  return {
+    auth: state.authReducer,
+    loader: state.loaderReducer,
+  };
+})(PickerInputExample);

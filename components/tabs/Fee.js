@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Container,
   Card,
@@ -18,10 +18,10 @@ import {
   Button,
 } from 'native-base';
 import CustomTable from '../customTable';
-import { CustomBarGraph, CustomLineGraph } from '../graphs';
+import {CustomBarGraph, CustomLineGraph} from '../graphs';
 import CardItemBordered from '../cards/CardItemBordered';
 import PickerInput from '../pickerInput';
-import { ScrollView } from 'react-native';
+import {ScrollView} from 'react-native';
 
 export default class Fee extends Component {
   render() {
@@ -42,9 +42,8 @@ export default class Fee extends Component {
       ],
     };
     return (
-
-      <View style={{ backgroundColor: 'white' }}>
-        <PickerInput />
+      <View style={{backgroundColor: 'white'}}>
+        {/* <PickerInput /> */}
         <ScrollView>
           <View>
             <CardItemBordered
@@ -55,8 +54,12 @@ export default class Fee extends Component {
                 marginBottom: 0,
                 backgroundColor: '#006add',
               }}
-              headerText={[<Text style={{ color: 'white', width: "100%" }}>{'Top 5 Defaulters \n'}</Text>]}
-              headerStyle={{ width: "100%" }}
+              headerText={[
+                <Text style={{color: 'white', width: '100%'}}>
+                  {'Top 5 Defaulters \n'}
+                </Text>,
+              ]}
+              headerStyle={{width: '100%'}}
               cardBody={[]}
               cardBodyStyle={[
                 {
@@ -67,7 +70,7 @@ export default class Fee extends Component {
               ]}
             />
           </View>
-          <View style={{ justifyContent: 'center' }}>
+          <View style={{justifyContent: 'center'}}>
             <View>
               <CardItemBordered
                 cardStyle={{
@@ -132,7 +135,7 @@ export default class Fee extends Component {
                 textAlign: 'center',
               }}
               headerText={[
-                <Text style={{ color: '#006add', fontWeight: 'bold' }}>
+                <Text style={{color: '#006add', fontWeight: 'bold'}}>
                   {'Bill Vs Collection'}
                 </Text>,
               ]}
@@ -143,12 +146,18 @@ export default class Fee extends Component {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}
-              headerText={[<Text style={{ color: '#006add' }}>{'Bill Vs Collection'}</Text>]}
-
-              headerStyle={{ flexDirection: "row", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}
-
+              headerText={[
+                <Text style={{color: '#006add'}}>{'Bill Vs Collection'}</Text>,
+              ]}
+              headerStyle={{
+                flexDirection: 'row',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
               cardBody={[<CustomLineGraph />]}
-              cardBodyStyle={[{ backgroundColor: 'white' }]}
+              cardBodyStyle={[{backgroundColor: 'white'}]}
             />
           </View>
           <View>
@@ -162,8 +171,7 @@ export default class Fee extends Component {
                 backgroundColor: '#006add',
               }}
               headerText={[
-                <Text
-                  style={{ color: 'white', width: '100%' }}>
+                <Text style={{color: 'white', width: '100%'}}>
                   {'Current month Vs Last month TF'}
                 </Text>,
               ]}
@@ -186,7 +194,7 @@ export default class Fee extends Component {
                     alignItems: 'center',
                     flexWrap: 'wrap',
                   }}>
-                  <View style={{ width: '50%' }}>
+                  <View style={{width: '50%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -218,7 +226,7 @@ export default class Fee extends Component {
                       ]}
                     />
                   </View>
-                  <View style={{ width: '50%' }}>
+                  <View style={{width: '50%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -274,7 +282,6 @@ export default class Fee extends Component {
           </View>
         </ScrollView>
       </View>
-
     );
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Container,
   Card,
@@ -18,9 +18,14 @@ import {
   Button,
 } from 'native-base';
 import CardItemBordered from '../cards/CardItemBordered';
-import { CustomBarGraph, CustomLineGraph2 } from '../graphs';
+import {CustomBarGraph, CustomLineGraph2} from '../graphs';
 import CustomTable from '../customTable';
-import { Dimensions, ScrollView, ScrollViewComponent, ViewPagerAndroidBase } from 'react-native'
+import {
+  Dimensions,
+  ScrollView,
+  ScrollViewComponent,
+  ViewPagerAndroidBase,
+} from 'react-native';
 import {
   Table,
   TableWrapper,
@@ -34,7 +39,6 @@ import {
 import PickerInput from '../pickerInput';
 
 export default class Main extends Component {
-
   render() {
     let screenWidth = Dimensions.get('window').width;
     const data = {
@@ -46,8 +50,8 @@ export default class Main extends Component {
       ],
     };
     return (
-      <View style={{ backgroundColor: 'white' }}>
-        <PickerInput />
+      <View style={{backgroundColor: 'white'}}>
+        {/* <PickerInput /> */}
         <ScrollView>
           <View>
             <CardItemBordered
@@ -59,7 +63,7 @@ export default class Main extends Component {
                 backgroundColor: '#006add',
               }}
               headerText={[
-                <Text style={{ color: 'white', width: '100%' }}>
+                <Text style={{color: 'white', width: '100%'}}>
                   {'Todays Collection \n'}{' '}
                   <Text
                     style={{
@@ -92,7 +96,7 @@ export default class Main extends Component {
               marginTop: -100,
               justifyContent: 'center',
             }}>
-            <View style={{ width: '32%', height: 'auto' }}>
+            <View style={{width: '32%', height: 'auto'}}>
               <CardItemBordered
                 cardStyle={{
                   textAlign: 'center',
@@ -110,16 +114,23 @@ export default class Main extends Component {
                     }}>{`Monthly\nFee\n`}</Text>,
                 ]}
                 useDividerTag={true}
-                headerStyle={{ textAlign: 'center', width: '100%' }}
+                headerStyle={{textAlign: 'center', width: '100%'}}
                 cardBody={[
-                  <Text style={{ width: '100%', color: '#006add', fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginTop: -10 }}>
-
+                  <Text
+                    style={{
+                      width: '100%',
+                      color: '#006add',
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      marginTop: -10,
+                    }}>
                     1000000
                   </Text>,
                 ]}
               />
             </View>
-            <View style={{ width: '32%', height: 'auto' }}>
+            <View style={{width: '32%', height: 'auto'}}>
               <CardItemBordered
                 cardStyle={{
                   textAlign: 'center',
@@ -137,16 +148,23 @@ export default class Main extends Component {
                     }}>{`Monthly\nCollection\n`}</Text>,
                 ]}
                 useDividerTag={true}
-                headerStyle={{ textAlign: 'center', width: '100%' }}
+                headerStyle={{textAlign: 'center', width: '100%'}}
                 cardBody={[
-                  <Text style={{ width: '100%', color: '#006add', fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginTop: -10 }}>
-
+                  <Text
+                    style={{
+                      width: '100%',
+                      color: '#006add',
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      marginTop: -10,
+                    }}>
                     1600000
                   </Text>,
                 ]}
               />
             </View>
-            <View style={{ width: '32%', height: 'auto' }}>
+            <View style={{width: '32%', height: 'auto'}}>
               <CardItemBordered
                 cardStyle={{
                   textAlign: 'center',
@@ -164,10 +182,17 @@ export default class Main extends Component {
                     }}>{`Receivable\nAmount\n`}</Text>,
                 ]}
                 useDividerTag={true}
-                headerStyle={{ textAlign: 'center', width: '100%' }}
+                headerStyle={{textAlign: 'center', width: '100%'}}
                 cardBody={[
-                  <Text style={{ width: '100%', color: '#006add', fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginTop: -10 }}>
-
+                  <Text
+                    style={{
+                      width: '100%',
+                      color: '#006add',
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      marginTop: -10,
+                    }}>
                     1800000
                   </Text>,
                 ]}
@@ -184,24 +209,31 @@ export default class Main extends Component {
                 textAlign: 'center',
               }}
               headerText={[
-                <Text style={{ color: '#006add' }}>{'Total Receivable'}</Text>,
+                <Text style={{color: '#006add'}}>{'Total Receivable'}</Text>,
               ]}
               viewButton={[
-                  
                 <Button
-
                   onPress={() => this.props.onTabPress(1)}
                   iconRight
                   small
                   success
-                  style={{ width: '100%', borderRadius: 8 }} >
-                  <Text style={{ textTransform: 'capitalize', }} >View More</Text>
-                  <Icon name="chevron-forward" style={{ marginLeft: -20, fontSize: 20 }} />
-                </Button>]}
-              headerStyle={{ flexDirection: "row", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}
-
+                  style={{width: '100%', borderRadius: 8}}>
+                  <Text style={{textTransform: 'capitalize'}}>View More</Text>
+                  <Icon
+                    name="chevron-forward"
+                    style={{marginLeft: -20, fontSize: 20}}
+                  />
+                </Button>,
+              ]}
+              headerStyle={{
+                flexDirection: 'row',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
               cardBody={[<CustomBarGraph />]}
-              cardBodyStyle={[{ backgroundColor: 'white' }]}
+              cardBodyStyle={[{backgroundColor: 'white'}]}
             />
             <CardItemBordered
               cardStyle={{
@@ -232,12 +264,12 @@ export default class Main extends Component {
                 textAlign: 'center',
               }}
               headerText={[
-                <Text style={{ color: '#006add' }}>
+                <Text style={{color: '#006add'}}>
                   {'Total Collection (monthwise)'}
                 </Text>,
               ]}
               cardBody={[<CustomLineGraph2 />]}
-              cardBodyStyle={[{ backgroundColor: 'white' }]}
+              cardBodyStyle={[{backgroundColor: 'white'}]}
             />
           </View>
           <View>
@@ -251,26 +283,46 @@ export default class Main extends Component {
                 backgroundColor: '#006add',
               }}
               headerText={[
-                <Text style={{ color: 'white', width: '100%' }}>{'Admission & Left'}</Text>
+                <Text style={{color: 'white', width: '100%'}}>
+                  {'Admission & Left'}
+                </Text>,
               ]}
               viewButton={[
-
                 <Button
-                  // onPress={() => { this.scroll.scrollTo({ x: screenWidth }) }} 
+                  // onPress={() => { this.scroll.scrollTo({ x: screenWidth }) }}
                   active
                   onPress={() => this.props.onTabPress(3)}
-                  iconRight small success style={{ width: '100%', borderRadius: 8 }} >
-                  <Text style={{ textTransform: 'capitalize', }}>View More</Text>
-                  <Icon name="chevron-forward" style={{ marginLeft: -20, fontSize: 20 }} />
-                </Button>
+                  iconRight
+                  small
+                  success
+                  style={{width: '100%', borderRadius: 8}}>
+                  <Text style={{textTransform: 'capitalize'}}>View More</Text>
+                  <Icon
+                    name="chevron-forward"
+                    style={{marginLeft: -20, fontSize: 20}}
+                  />
+                </Button>,
               ]}
-              headerStyle={{ flexDirection: "row", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+              headerStyle={{
+                flexDirection: 'row',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
               useOtherTag={true}
               cardBody={[
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ display: 'flex', flexDirection: 'row', textAlign: 'center' }}
-                // ref={(node) => this.scroll = node} 
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    textAlign: 'center',
+                  }}
+                  // ref={(node) => this.scroll = node}
                 >
-                  <View style={{ width: '25%' }}>
+                  <View style={{width: '25%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -280,7 +332,7 @@ export default class Main extends Component {
                         borderBottomWidth: 4,
                       }}
                       headerText={[
-                        <Text style={{ fontSize: 13, color: 'grey' }}>
+                        <Text style={{fontSize: 13, color: 'grey'}}>
                           Enquiries
                         </Text>,
                       ]}
@@ -295,13 +347,30 @@ export default class Main extends Component {
                         </Text>,
                       ]}
                       useOtherTag={true}
-                      headerStyle={{ borderBottomColor: 'grey', borderBottomWidth: 0.7, flexDirection: "row", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}
-                      cardBody={[<H1 style={{ width: '100%', color: '#006add', fontWeight: 'bold', textAlign: 'center' }}>-</H1>]}
-                      cardBodyStyle={[{ backgroundColor: "white" }]}
+                      headerStyle={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 0.7,
+                        flexDirection: 'row',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      cardBody={[
+                        <H1
+                          style={{
+                            width: '100%',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          -
+                        </H1>,
+                      ]}
+                      cardBodyStyle={[{backgroundColor: 'white'}]}
                     />
                   </View>
-                  <View style={{ width: '25%' }}>
-
+                  <View style={{width: '25%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -311,7 +380,7 @@ export default class Main extends Component {
                         borderBottomWidth: 4,
                       }}
                       headerText={[
-                        <Text style={{ fontSize: 13, color: 'grey' }}>
+                        <Text style={{fontSize: 13, color: 'grey'}}>
                           Admissions
                         </Text>,
                       ]}
@@ -336,14 +405,20 @@ export default class Main extends Component {
                         alignItems: 'center',
                       }}
                       cardBody={[
-                        <H1 style={{ width: '100%', color: '#006add', fontWeight: 'bold', textAlign: 'center' }}>
+                        <H1
+                          style={{
+                            width: '100%',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
                           435,345
                         </H1>,
                       ]}
                     />
                   </View>
 
-                  <View style={{ width: '25%' }}>
+                  <View style={{width: '25%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -353,7 +428,7 @@ export default class Main extends Component {
                         borderBottomWidth: 4,
                       }}
                       headerText={[
-                        <Text style={{ fontSize: 13, color: 'grey' }}>
+                        <Text style={{fontSize: 13, color: 'grey'}}>
                           Registeration
                         </Text>,
                       ]}
@@ -378,13 +453,19 @@ export default class Main extends Component {
                         alignItems: 'center',
                       }}
                       cardBody={[
-                        <H1 style={{ width: '100%', color: '#006add', fontWeight: 'bold', textAlign: 'center' }}>
+                        <H1
+                          style={{
+                            width: '100%',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
                           25,500
                         </H1>,
                       ]}
                     />
                   </View>
-                  <View style={{ width: '25%' }}>
+                  <View style={{width: '25%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -394,7 +475,7 @@ export default class Main extends Component {
                         borderBottomWidth: 4,
                       }}
                       headerText={[
-                        <Text style={{ fontSize: 13, color: 'grey' }}>
+                        <Text style={{fontSize: 13, color: 'grey'}}>
                           Stu. Left
                         </Text>,
                       ]}
@@ -419,13 +500,18 @@ export default class Main extends Component {
                         alignItems: 'center',
                       }}
                       cardBody={[
-                        <H1 style={{ width: 'auto', color: '#006add', fontWeight: 'bold', textAlign: 'center' }}>
+                        <H1
+                          style={{
+                            width: 'auto',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
                           (43,345)
                         </H1>,
                       ]}
                     />
                   </View>
-
                 </ScrollView>,
               ]}
               cardBodyStyle={[
@@ -445,22 +531,22 @@ export default class Main extends Component {
                 marginBottom: 0,
               }}
               headerText={[
-                <Text
-                  style={{ width: '100%', color: '#006add'}}>
+                <Text style={{width: '100%', color: '#006add'}}>
                   {'Top 5 Defaulters '}
                 </Text>,
               ]}
               viewButton={[
                 <Button
-                  active onPress={() => this.props.onTabPress(1)}
+                  active
+                  onPress={() => this.props.onTabPress(1)}
                   iconRight
                   small
                   success
-                  style={{ width: '100%', borderRadius: 8 }}>
-                  <Text style={{ textTransform: 'capitalize' }}>View More</Text>
+                  style={{width: '100%', borderRadius: 8}}>
+                  <Text style={{textTransform: 'capitalize'}}>View More</Text>
                   <Icon
                     name="chevron-forward"
-                    style={{ marginLeft: -20, fontSize: 20 }}
+                    style={{marginLeft: -20, fontSize: 20}}
                   />
                 </Button>,
               ]}
@@ -534,18 +620,24 @@ export default class Main extends Component {
                 backgroundColor: '#006add',
               }}
               headerText={[
-                <Text style={{ color: 'white', width: '100%' }}>
+                <Text style={{color: 'white', width: '100%'}}>
                   {`HR & Payroll`}
-                </Text>
+                </Text>,
               ]}
               viewButton={[
                 <Button
-                  active onPress={() => this.props.onTabPress(2)}
-                  iconRight small success style={{ width: '100%', borderRadius: 8 }} >
-                  <Text style={{ textTransform: 'capitalize', }}>View More</Text>
-                  <Icon name="chevron-forward" style={{ marginLeft: -20, fontSize: 20 }} />
-                </Button>
-
+                  active
+                  onPress={() => this.props.onTabPress(2)}
+                  iconRight
+                  small
+                  success
+                  style={{width: '100%', borderRadius: 8}}>
+                  <Text style={{textTransform: 'capitalize'}}>View More</Text>
+                  <Icon
+                    name="chevron-forward"
+                    style={{marginLeft: -20, fontSize: 20}}
+                  />
+                </Button>,
               ]}
               useOtherTag={true}
               headerStyle={{
@@ -566,7 +658,7 @@ export default class Main extends Component {
                     alignItems: 'center',
                     flexWrap: 'wrap',
                   }}>
-                  <View style={{ width: '32%' }}>
+                  <View style={{width: '32%'}}>
                     <CardItemBordered
                       useOtherTag={true}
                       headerText={[
@@ -578,7 +670,7 @@ export default class Main extends Component {
                           }}>{`Total\nStaff\n`}</Text>,
                       ]}
                       useDividerTag={true}
-                      headerStyle={{ textAlign: 'center', width: '100%' }}
+                      headerStyle={{textAlign: 'center', width: '100%'}}
                       cardBody={[
                         <H2
                           style={{
@@ -608,7 +700,7 @@ export default class Main extends Component {
                           }}>{`Today's\nAbsent\n`}</Text>,
                       ]}
                       useDividerTag={true}
-                      headerStyle={{ textAlign: 'center', width: '100%' }}
+                      headerStyle={{textAlign: 'center', width: '100%'}}
                       cardBody={[
                         <H2
                           style={{
@@ -623,7 +715,7 @@ export default class Main extends Component {
                       ]}
                     />
                   </View>
-                  <View style={{ width: '32%' }}>
+                  <View style={{width: '32%'}}>
                     <CardItemBordered
                       useOtherTag={true}
                       headerText={[
@@ -635,7 +727,7 @@ export default class Main extends Component {
                           }}>{`Today's\nLate\n`}</Text>,
                       ]}
                       useDividerTag={true}
-                      headerStyle={{ textAlign: 'center', width: '100%' }}
+                      headerStyle={{textAlign: 'center', width: '100%'}}
                       cardBody={[
                         <H2
                           style={{
@@ -660,8 +752,8 @@ export default class Main extends Component {
               ]}
             />
           </View>
-        </ScrollView >
-      </View >
+        </ScrollView>
+      </View>
     );
   }
 }

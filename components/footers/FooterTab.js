@@ -22,6 +22,7 @@ import Academics from '../tabs/Academics';
 import HR from '../tabs/HR';
 import Accounts from '../tabs/Accounts';
 import {ScrollView} from 'react-native';
+import PickerInputExample from '../pickerInput';
 
 export default class FooterTabs extends Component {
   constructor() {
@@ -74,26 +75,25 @@ export default class FooterTabs extends Component {
         iconName: 'home',
         iconType: 'FontAwesome',
         // textName: 'Main',
-        component: <Main onTabPress={this.onTabPress}/>,
+        component: <Main onTabPress={this.onTabPress} />,
       },
       {
         iconName: 'hand-holding-usd',
         iconType: 'FontAwesome5',
         // textName: 'Fee',
-        component: <Fee onTabPress={this.onTabPress}/>,
+        component: <Fee onTabPress={this.onTabPress} />,
       },
       {
         iconName: 'user-friends',
         iconType: 'FontAwesome5',
         // textName: 'Acad',
-        component: <Academics onTabPress={this.onTabPress}/>,
+        component: <Academics onTabPress={this.onTabPress} />,
       },
       {
-        
         iconName: 'graduation-cap',
         iconType: 'FontAwesome',
         // textName: 'HR',
-        component: <HR onTabPress={this.onTabPress}/>,
+        component: <HR onTabPress={this.onTabPress} />,
       },
       {
         iconName: 'calculator-sharp',
@@ -105,7 +105,10 @@ export default class FooterTabs extends Component {
     return (
       <Container>
         <CustomHeaders />
-        <Content>{buttonArray[this.state.activeTab].component}</Content>
+        <Content>
+          <PickerInputExample />
+          {buttonArray[this.state.activeTab].component}
+        </Content>
         <Footer>
           <FooterTab style={{backgroundColor: '#37b349'}}>
             {buttonArray.map((item, index) => (

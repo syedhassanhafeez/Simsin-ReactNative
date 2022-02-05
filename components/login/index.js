@@ -28,9 +28,13 @@ class Login extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    const token = AsyncStorage.getItem('token');
+    const token = await AsyncStorage.getItem('token');
     if (token !== this.props.auth.loggedInUserDetails.token) {
-      AsyncStorage.setItem('token', this.props.auth.loggedInUserDetails.token);
+      await AsyncStorage.setItem(
+        'token',
+        this.props.auth.loggedInUserDetails.token,
+      );
+      Actions.about();
     }
   }
 
