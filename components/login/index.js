@@ -15,6 +15,8 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {login} from '../../redux/actions';
 import {LOGIN} from '../../constants';
+import {LOGINBUTTONID} from '../../constants/ids';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -25,22 +27,14 @@ class Login extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.dispatch(
-      login({
-        requestDetails: {
-          requestUrl: '/login',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            user_no: '',
-            user_password: '',
-          },
-        },
-        reducerDetails: {actionType: LOGIN},
-      }),
-    );
+  async componentDidUpdate(prevProps, prevState) {
+    const token = AsyncStorage.getItem('token');
+    if (token !== this.props.auth.loggedInUserDetails.token) {
+      AsyncStorage.setItem('token', this.props.auth.loggedInUserDetails.token);
+    }
   }
+
+  componentDidMount() {}
 
   // login = async (email, password) => {
   //   const res = await axios.post(
@@ -49,29 +43,30 @@ class Login extends Component {
   //   ).catch((res) => {
   //     return { status: 401, message: 'Unauthorized' }
   //   })
-  userLogin = () => {
-    console.log('In userlogin === ', this.state);
-    var email = this.state.username;
-    var password = this.state.password;
+  userLogin = loginID => {
+    let email = this.state.email;
+    let password = this.state.password;
+    console.log({email, password});
     if (email && password) {
       // if validation fails, value will be null
-      fetch('http://test.arwaj.com.pk:8085/sims_in/api/login ', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: email,
-          password: password,
+      console.log('calling');
+      this.props.dispatch(
+        login({
+          requestDetails: {
+            requestUrl: '/login',
+            requestMethod: 'POST',
+            requestHeaders: {},
+            requestBody: {
+              user_no: email,
+              user_password: password,
+            },
+          },
+          reducerDetails: {
+            actionType: LOGIN,
+            extraProps: {id: loginID},
+          },
         }),
-      })
-        .then(response => {
-          console.log('response === ', response);
-        })
-        .catch(ex => {
-          console.log('ex === ', ex);
-        });
+      );
     }
   };
 
@@ -152,6 +147,7 @@ class Login extends Component {
           </View>
           <View style={{width: '100%'}}>
             <Button
+              id={LOGINBUTTONID}
               style={{
                 width: '100%',
                 backgroundColor: '#006add',
@@ -159,7 +155,11 @@ class Login extends Component {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={this.userLogin}>
+              disabled={
+                this?.props?.loader?.allIDs &&
+                this.props.loader.allIDs.includes(LOGINBUTTONID)
+              }
+              onPress={() => this.userLogin(LOGINBUTTONID)}>
               {/* <Icon name="home" /> */}
               <Text>Login</Text>
             </Button>
@@ -176,4 +176,10 @@ function mapStateToProps(state) {
   return state;
 }
 
-export default connect(state => state)(Login);
+export default connect(state => {
+  console.log('state === ', state);
+  return {
+    auth: state.authReducer,
+    loader: state.loaderReducer,
+  };
+})(Login);

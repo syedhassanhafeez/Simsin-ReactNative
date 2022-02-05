@@ -1,3 +1,4 @@
+import {REQUESTEND, REQUESTSTART} from '../constants';
 import {apiRequest} from './genericRequests/apiRequest';
 
 const makeRequest =
@@ -5,21 +6,39 @@ const makeRequest =
   dispatch => {
     const {requestUrl, requestMethod, requestHeaders, requestBody} =
       requestDetails;
-    const {actionType} = reducerDetails;
-    apiRequest(requestUrl, requestMethod, requestHeaders, requestBody).then(
-      response => {
+    const {actionType, extraProps} = reducerDetails;
+    if (extraProps?.id) {
+      dispatch({
+        type: REQUESTSTART,
+        payload: {id: extraProps.id},
+      });
+    }
+    apiRequest(requestUrl, requestMethod, requestHeaders, requestBody)
+      .then(response => {
         console.log('response === ', response);
+        if (extraProps?.id) {
+          dispatch({
+            type: REQUESTEND,
+            payload: {id: extraProps.id},
+          });
+        }
         dispatch({
           type: actionType,
           payload: {
             responsePayload: response,
             requestPayload: {requestDetails, reducerDetails},
           },
-        }).catch(ex => {
-          console.log('ex === ', ex);
         });
-      },
-    );
+      })
+      .catch(outerEx => {
+        if (extraProps?.id) {
+          dispatch({
+            type: REQUESTEND,
+            payload: {id: extraProps.id},
+          });
+        }
+        console.log('outerEx === ', outerEx);
+      });
   };
 
 export {makeRequest};

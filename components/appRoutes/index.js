@@ -1,11 +1,11 @@
 import React from 'react';
-import { Router, Scene } from 'react-native-router-flux';
+import {Router, Scene} from 'react-native-router-flux';
 import Login from '../login/index.js';
 import FooterTabsIconText from '../footers/FooterTab.js';
 import Main from '../tabs/Main.js';
 import Fee from '../tabs/Fee.js';
 import HR from '../tabs/HR.js';
-import Academics from '../tabs/Academics.js'
+import Academics from '../tabs/Academics.js';
 const AppRoutes = () => (
   <Router>
     <Scene key="root">
@@ -22,7 +22,7 @@ const AppRoutes = () => (
         title="Login"
         hideNavBar={true}
       />
-      <Scene
+      {/* <Scene
         key='fee'
         component={Fee}
         title='View More'
@@ -39,10 +39,8 @@ const AppRoutes = () => (
         title='Login'
         hideNavBar={true}
 
-      />
+      /> */}
     </Scene>
-
-
   </Router>
 );
 export default AppRoutes;
