@@ -22,25 +22,37 @@ import {CustomBarGraph, CustomLineGraph} from '../graphs';
 import CardItemBordered from '../cards/CardItemBordered';
 import PickerInput from '../pickerInput';
 import {ScrollView} from 'react-native';
+import {GETTOP5DEFAULTERSSUMMARY} from '../../constants';
+import {GETTOP5DEFAULTERSSUMMARYID} from '../../constants/ids';
 
-export default class Fee extends Component {
+class Fee extends Component {
+  componentDidMount() {
+    this.props.dispatch(
+      genericAction({
+        requestDetails: {
+          requestUrl: '/fee/get_top_five_defaulters_summary',
+          requestMethod: 'POST',
+          requestHeaders: {},
+          requestBody: {
+            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+          },
+        },
+        reducerDetails: {
+          actionType: GETTOP5DEFAULTERSSUMMARY,
+          extraProps: {id: GETTOP5DEFAULTERSSUMMARYID},
+        },
+      }),
+    );
+  }
   render() {
-    const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-      datasets: [
-        {
-          data: [20, 45, 28, 80, 99, 43],
-        },
-      ],
-    };
-    const data1 = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-      datasets: [
-        {
-          data1: [10, 55, 38, 70, 89, 33],
-        },
-      ],
-    };
+    // let receivableCollectionGraphLabels = this.props?.accounts?.receivable_collection
+    //   ? Object.keys(this.props.accounts.receivable_collection)
+    //   : [];
+    // let receivableCollectionGraphData = this.props?.accounts?.receivable_collection
+    //   ? Object.values(this.props.accounts.receivable_collection).map(item => {
+    //       return parseInt(item.replaceAll(',', ''));
+    //     })
+    //   : [];
     return (
       <View style={{backgroundColor: 'white'}}>
         {/* <PickerInput /> */}
@@ -81,7 +93,9 @@ export default class Fee extends Component {
                   textAlign: 'center',
                 }}
                 useOtherTag={true}
-                headerText={[<CustomTable />]}
+                headerText={[
+                  <CustomTable tableData={{dataTable: tableData}} />,
+                ]}
                 headerStyle={{
                   textAlign: 'center',
                   marginTop: -140,
@@ -156,7 +170,14 @@ export default class Fee extends Component {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}
-              cardBody={[<CustomLineGraph />]}
+              cardBody={[
+                <CustomLineGraph
+                  graphData={{
+                    labels: totalReceivableGraphLabels,
+                    data: totalReceivableGraphData,
+                  }}
+                />,
+              ]}
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />
           </View>
@@ -285,3 +306,12 @@ export default class Fee extends Component {
     );
   }
 }
+export default connect(state => {
+  console.log('state === ', state);
+  return {
+    accounts: state.accountsReducer,
+    auth: state.authReducer,
+    academics: state.academicsReducer,
+    hr: state.hrReducer,
+  };
+})(Fee);

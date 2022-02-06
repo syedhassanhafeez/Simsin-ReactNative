@@ -23,15 +23,7 @@ export default class CustomTable extends Component {
         windowWidth / 4,
         windowWidth / 4,
       ],
-      DataTable: [
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-      ],
+      DataTable: [...this.props.tableData.dataTable],
     };
   }
 

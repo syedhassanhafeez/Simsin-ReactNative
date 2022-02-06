@@ -1,6 +1,6 @@
-import {REQUESTEND, REQUESTSTART} from '../constants';
+import {LOGIN, REQUESTEND, REQUESTSTART} from '../constants';
 import {apiRequest} from './genericRequests/apiRequest';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const makeRequest =
   ({requestDetails, reducerDetails}) =>
   dispatch => {
@@ -13,7 +13,11 @@ const makeRequest =
         payload: {id: extraProps.id},
       });
     }
-    apiRequest(requestUrl, requestMethod, requestHeaders, requestBody)
+    let constructHeaders = {...requestHeaders};
+    if (actionType !== LOGIN) {
+      constructHeaders['Authorization'] = AsyncStorage.getItem('token');
+    }
+    apiRequest(requestUrl, requestMethod, constructHeaders, requestBody)
       .then(response => {
         console.log('response === ', response);
         if (extraProps?.id) {

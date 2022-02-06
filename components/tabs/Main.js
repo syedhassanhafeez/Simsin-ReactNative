@@ -17,6 +17,7 @@ import {
   Body,
   Button,
 } from 'native-base';
+import {connect} from 'react-redux';
 import CardItemBordered from '../cards/CardItemBordered';
 import {CustomBarGraph, CustomLineGraph2} from '../graphs';
 import CustomTable from '../customTable';
@@ -37,10 +38,132 @@ import {
 } from 'react-native-table-component';
 
 import PickerInput from '../pickerInput';
+import {
+  feeSummary,
+  genericAction,
+  totalCollectionMonthwise,
+} from '../../redux/actions';
+import {
+  FEESUMMARY,
+  GETADMISSIONLEFT,
+  GETTOP5DEFAULTERS,
+  TOTALCOLLECTIONMONTHWISE,
+  TOTALRECEIVABLES,
+} from '../../constants';
+import {
+  FEESUMMARYID,
+  GETADMISSIONLEFTID,
+  GETTOP5DEFAULTERSID,
+  TOTALCOLLECTIONMONTHWISEID,
+  TOTALRECEIVABLESID,
+} from '../../constants/ids';
 
-export default class Main extends Component {
+class Main extends Component {
+  componentDidMount() {
+    this.props.dispatch(
+      feeSummary({
+        requestDetails: {
+          requestUrl: '/fee/get_fee_summary',
+          requestMethod: 'POST',
+          requestHeaders: {},
+          requestBody: {
+            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+          },
+        },
+        reducerDetails: {
+          actionType: FEESUMMARY,
+          extraProps: {id: FEESUMMARYID},
+        },
+      }),
+    );
+    this.props.dispatch(
+      totalReceivables({
+        requestDetails: {
+          requestUrl: '/fee/get_total_receivable',
+          requestMethod: 'POST',
+          requestHeaders: {},
+          requestBody: {
+            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+          },
+        },
+        reducerDetails: {
+          actionType: TOTALRECEIVABLES,
+          extraProps: {id: TOTALRECEIVABLESID},
+        },
+      }),
+    );
+    this.props.dispatch(
+      totalCollectionMonthwise({
+        requestDetails: {
+          requestUrl: '/fee/get_total_collection_monthwise',
+          requestMethod: 'POST',
+          requestHeaders: {},
+          requestBody: {
+            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+          },
+        },
+        reducerDetails: {
+          actionType: TOTALCOLLECTIONMONTHWISE,
+          extraProps: {id: TOTALCOLLECTIONMONTHWISEID},
+        },
+      }),
+    );
+
+    this.props.dispatch(
+      genericAction({
+        requestDetails: {
+          requestUrl: '/fee/get_admission_left',
+          requestMethod: 'POST',
+          requestHeaders: {},
+          requestBody: {
+            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+          },
+        },
+        reducerDetails: {
+          actionType: GETADMISSIONLEFT,
+          extraProps: {id: GETADMISSIONLEFTID},
+        },
+      }),
+    );
+
+    this.props.dispatch(
+      genericAction({
+        requestDetails: {
+          requestUrl: '/fee/get_top_five_defaulters_count',
+          requestMethod: 'POST',
+          requestHeaders: {},
+          requestBody: {
+            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+          },
+        },
+        reducerDetails: {
+          actionType: GETTOP5DEFAULTERS,
+          extraProps: {id: GETTOP5DEFAULTERSID},
+        },
+      }),
+    );
+  }
+
   render() {
     let screenWidth = Dimensions.get('window').width;
+    let totalReceivableGraphLabels = this.props?.accounts?.totalReceivables
+      ? Object.keys(this.props.accounts.totalReceivables)
+      : [];
+    let totalReceivableGraphData = this.props?.accounts?.totalReceivables
+      ? Object.values(this.props.accounts.totalReceivables).map(item => {
+          return parseInt(item.replaceAll(',', ''));
+        })
+      : [];
+    let totalCollectionMonthwiseGraphLabels = this.props?.accounts
+      ?.totalReceivables
+      ? Object.keys(this.props.accounts.totalReceivables)
+      : [];
+    let totalCollectionMonthwiseGraphData = this.props?.accounts
+      ?.totalReceivables
+      ? Object.values(this.props.accounts.totalReceivables).map(item => {
+          return parseInt(item.replaceAll(',', ''));
+        })
+      : [];
     const data = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June'],
       datasets: [
@@ -125,7 +248,7 @@ export default class Main extends Component {
                       textAlign: 'center',
                       marginTop: -10,
                     }}>
-                    1000000
+                    {this.props.accounts.monthly_fee}
                   </Text>,
                 ]}
               />
@@ -159,7 +282,7 @@ export default class Main extends Component {
                       textAlign: 'center',
                       marginTop: -10,
                     }}>
-                    1600000
+                    {this.props.accounts.monthly_collection}
                   </Text>,
                 ]}
               />
@@ -193,7 +316,7 @@ export default class Main extends Component {
                       textAlign: 'center',
                       marginTop: -10,
                     }}>
-                    1800000
+                    {this.props.accounts.receivable}
                   </Text>,
                 ]}
               />
@@ -232,7 +355,14 @@ export default class Main extends Component {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}
-              cardBody={[<CustomBarGraph />]}
+              cardBody={[
+                <CustomBarGraph
+                  graphData={{
+                    labels: totalReceivableGraphLabels,
+                    data: totalReceivableGraphData,
+                  }}
+                />,
+              ]}
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />
             <CardItemBordered
@@ -268,7 +398,14 @@ export default class Main extends Component {
                   {'Total Collection (monthwise)'}
                 </Text>,
               ]}
-              cardBody={[<CustomLineGraph2 />]}
+              cardBody={[
+                <CustomLineGraph2
+                  graphData={{
+                    labels: totalCollectionMonthwiseGraphLabels,
+                    data: totalCollectionMonthwiseGraphData,
+                  }}
+                />,
+              ]}
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />
           </View>
@@ -343,7 +480,9 @@ export default class Main extends Component {
                             fontWeight: 'bold',
                             color: '#37b349',
                           }}>
-                          45
+                          {this?.props?.academics?.enquiries?.count
+                            ? this?.props?.academics?.enquiries?.count
+                            : 0}
                         </Text>,
                       ]}
                       useOtherTag={true}
@@ -391,7 +530,9 @@ export default class Main extends Component {
                             fontWeight: 'bold',
                             color: '#37b349',
                           }}>
-                          45
+                          {this?.props?.academics?.admission?.count
+                            ? this?.props?.academics?.admission?.count
+                            : 0}
                         </Text>,
                       ]}
                       useOtherTag={true}
@@ -412,7 +553,9 @@ export default class Main extends Component {
                             fontWeight: 'bold',
                             textAlign: 'center',
                           }}>
-                          435,345
+                          {this?.props?.academics?.admission?.amount
+                            ? this?.props?.academics?.admission?.amount
+                            : 0}
                         </H1>,
                       ]}
                     />
@@ -486,7 +629,9 @@ export default class Main extends Component {
                             fontWeight: 'bold',
                             color: '#37b349',
                           }}>
-                          35
+                          {this?.props?.academics?.student_left?.count
+                            ? this?.props?.academics?.student_left?.count
+                            : 0}
                         </Text>,
                       ]}
                       useOtherTag={true}
@@ -507,7 +652,9 @@ export default class Main extends Component {
                             fontWeight: 'bold',
                             textAlign: 'center',
                           }}>
-                          (43,345)
+                          {this?.props?.academics?.student_left?.amount
+                            ? this?.props?.academics?.student_left?.amount
+                            : 0}
                         </H1>,
                       ]}
                     />
@@ -580,7 +727,7 @@ export default class Main extends Component {
                           fontWeight: 'bold',
                           fontSize: 35,
                         }}>
-                        {'\n435,345'}
+                        {`\n${this.props.accounts.top_five_defaulters_count}`}
                       </H1>,
                     ]}
                     headerStyle={{
@@ -680,7 +827,9 @@ export default class Main extends Component {
                             textAlign: 'center',
                             marginTop: -10,
                           }}>
-                          55
+                          {this?.props?.hr?.total_staff
+                            ? this?.props?.hr?.total_staff
+                            : 0}
                         </H2>,
                       ]}
                     />
@@ -710,7 +859,9 @@ export default class Main extends Component {
                             textAlign: 'center',
                             marginTop: -10,
                           }}>
-                          3
+                          {this?.props?.hr?.todays_absent
+                            ? this?.props?.hr?.todays_absent
+                            : 0}
                         </H2>,
                       ]}
                     />
@@ -737,7 +888,9 @@ export default class Main extends Component {
                             textAlign: 'center',
                             marginTop: -10,
                           }}>
-                          6
+                          {this?.props?.hr?.todays_late
+                            ? this?.props?.hr?.todays_late
+                            : 0}
                         </H2>,
                       ]}
                     />
@@ -757,3 +910,13 @@ export default class Main extends Component {
     );
   }
 }
+
+export default connect(state => {
+  console.log('state === ', state);
+  return {
+    accounts: state.accountsReducer,
+    auth: state.authReducer,
+    academics: state.academicsReducer,
+    hr: state.hrReducer,
+  };
+})(Main);

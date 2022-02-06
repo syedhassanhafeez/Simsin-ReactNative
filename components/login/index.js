@@ -93,7 +93,6 @@ class Login extends Component {
   };
 
   render() {
-    console.log('this.props in Login === ', this.props);
     const uri =
       'https://facebook.github.io/react-native/docs/assets/favicon.png';
     return (
@@ -181,7 +180,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(state => {
-  console.log('state === ', state);
   return {
     auth: state.authReducer,
     loader: state.loaderReducer,
