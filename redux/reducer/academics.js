@@ -13,13 +13,12 @@ export default function (state = initialState, action) {
     case GETADMISSIONLEFT:
       return {
         ...state,
-        enquires: action?.payload?.responsePayload?.responsePayload?.enquires,
-        admission: action?.payload?.responsePayload?.responsePayload?.admission,
-        student_left:
-          action?.payload?.responsePayload?.responsePayload?.student_left,
+        enquires: action?.payload?.responsePayload?.response?.enquires,
+        admission: action?.payload?.responsePayload?.response?.admission,
+        student_left: action?.payload?.responsePayload?.response?.student_left,
         admission_fee:
-          action?.payload?.responsePayload?.responsePayload?.admission_fee,
-        bed_debt: action?.payload?.responsePayload?.responsePayload?.bed_debt,
+          action?.payload?.responsePayload?.response?.admission_fee,
+        bed_debt: action?.payload?.responsePayload?.response?.bed_debt,
       };
     default:
       return state;

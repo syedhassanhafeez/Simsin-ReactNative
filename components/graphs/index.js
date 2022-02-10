@@ -97,24 +97,10 @@ const CustomLineGraph = ({graphData}) => {
   return (
     <LineChart
       data={{
-        labels: [graphData.labels],
+        labels: [...graphData.labels],
         datasets: [
           {
-            data: [
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-            ],
+            data: [...graphData.data],
             color: (opacity = 1) => `rgba(56, 179, 73, ${opacity})`, // optional
             strokeWidth: 2, // optional
           },

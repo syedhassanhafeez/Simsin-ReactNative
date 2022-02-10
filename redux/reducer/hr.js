@@ -9,14 +9,16 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GETEMPLOYEESSUMMARY:
+      console.log(
+        'action?.payload? in GETEMPLOYEESSUMMARY === ',
+        action.payload,
+      );
       return {
         ...state,
-        total_staff:
-          action?.payload?.responsePayload?.responsePayload?.total_staff,
+        total_staff: action?.payload?.responsePayload?.response?.total_staff,
         todays_absent:
-          action?.payload?.responsePayload?.responsePayload?.todays_absent,
-        todays_late:
-          action?.payload?.responsePayload?.responsePayload?.todays_late,
+          action?.payload?.responsePayload?.response?.todays_absent,
+        todays_late: action?.payload?.responsePayload?.response?.todays_late,
       };
     default:
       return state;

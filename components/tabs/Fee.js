@@ -18,6 +18,7 @@ import {
   Button,
 } from 'native-base';
 import CustomTable from '../customTable';
+import {connect} from 'react-redux';
 import {CustomBarGraph, CustomLineGraph} from '../graphs';
 import CardItemBordered from '../cards/CardItemBordered';
 import PickerInput from '../pickerInput';
@@ -27,23 +28,46 @@ import {GETTOP5DEFAULTERSSUMMARYID} from '../../constants/ids';
 
 class Fee extends Component {
   componentDidMount() {
-    this.props.dispatch(
-      genericAction({
-        requestDetails: {
-          requestUrl: '/fee/get_top_five_defaulters_summary',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+    if (this?.props?.auth?.selectedCampusDetails?.campus_id) {
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_top_five_defaulters_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: GETTOP5DEFAULTERSSUMMARY,
-          extraProps: {id: GETTOP5DEFAULTERSSUMMARYID},
-        },
-      }),
-    );
+          reducerDetails: {
+            actionType: GETTOP5DEFAULTERSSUMMARY,
+            extraProps: {id: GETTOP5DEFAULTERSSUMMARYID},
+          },
+        }),
+      );
+    }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps?.auth?.selectedCampusDetails?.campus_id !==
+      this?.props?.auth?.selectedCampusDetails?.campus_id
+    ) {
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_top_five_defaulters_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTOP5DEFAULTERSSUMMARY,
+            extraProps: {id: GETTOP5DEFAULTERSSUMMARYID},
+          },
+        }),
+      );
+    }
+  }
+
   render() {
     // let receivableCollectionGraphLabels = this.props?.accounts?.receivable_collection
     //   ? Object.keys(this.props.accounts.receivable_collection)
@@ -307,7 +331,6 @@ class Fee extends Component {
   }
 }
 export default connect(state => {
-  console.log('state === ', state);
   return {
     accounts: state.accountsReducer,
     auth: state.authReducer,

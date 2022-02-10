@@ -42,10 +42,12 @@ import {
   feeSummary,
   genericAction,
   totalCollectionMonthwise,
+  totalReceivables,
 } from '../../redux/actions';
 import {
   FEESUMMARY,
   GETADMISSIONLEFT,
+  GETEMPLOYEESSUMMARY,
   GETTOP5DEFAULTERS,
   TOTALCOLLECTIONMONTHWISE,
   TOTALRECEIVABLES,
@@ -53,6 +55,7 @@ import {
 import {
   FEESUMMARYID,
   GETADMISSIONLEFTID,
+  GETEMPLOYEESSUMMARYID,
   GETTOP5DEFAULTERSID,
   TOTALCOLLECTIONMONTHWISEID,
   TOTALRECEIVABLESID,
@@ -60,88 +63,200 @@ import {
 
 class Main extends Component {
   componentDidMount() {
-    this.props.dispatch(
-      feeSummary({
-        requestDetails: {
-          requestUrl: '/fee/get_fee_summary',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+    if (this?.props?.auth?.selectedCampusDetails?.campus_id) {
+      this.props.dispatch(
+        feeSummary({
+          requestDetails: {
+            requestUrl: `/fee/get_fee_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: FEESUMMARY,
-          extraProps: {id: FEESUMMARYID},
-        },
-      }),
-    );
-    this.props.dispatch(
-      totalReceivables({
-        requestDetails: {
-          requestUrl: '/fee/get_total_receivable',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+          reducerDetails: {
+            actionType: FEESUMMARY,
+            extraProps: {id: FEESUMMARYID},
           },
-        },
-        reducerDetails: {
-          actionType: TOTALRECEIVABLES,
-          extraProps: {id: TOTALRECEIVABLESID},
-        },
-      }),
-    );
-    this.props.dispatch(
-      totalCollectionMonthwise({
-        requestDetails: {
-          requestUrl: '/fee/get_total_collection_monthwise',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+        }),
+      );
+      this.props.dispatch(
+        totalReceivables({
+          requestDetails: {
+            requestUrl: `/fee/get_total_receivable?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: TOTALCOLLECTIONMONTHWISE,
-          extraProps: {id: TOTALCOLLECTIONMONTHWISEID},
-        },
-      }),
-    );
+          reducerDetails: {
+            actionType: TOTALRECEIVABLES,
+            extraProps: {id: TOTALRECEIVABLESID},
+          },
+        }),
+      );
+      this.props.dispatch(
+        totalCollectionMonthwise({
+          requestDetails: {
+            requestUrl: `/fee/get_total_collection_monthwise?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: TOTALCOLLECTIONMONTHWISE,
+            extraProps: {id: TOTALCOLLECTIONMONTHWISEID},
+          },
+        }),
+      );
 
-    this.props.dispatch(
-      genericAction({
-        requestDetails: {
-          requestUrl: '/fee/get_admission_left',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_admission_left?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: GETADMISSIONLEFT,
-          extraProps: {id: GETADMISSIONLEFTID},
-        },
-      }),
-    );
+          reducerDetails: {
+            actionType: GETADMISSIONLEFT,
+            extraProps: {id: GETADMISSIONLEFTID},
+          },
+        }),
+      );
 
-    this.props.dispatch(
-      genericAction({
-        requestDetails: {
-          requestUrl: '/fee/get_top_five_defaulters_count',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_top_five_defaulters_count?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: GETTOP5DEFAULTERS,
-          extraProps: {id: GETTOP5DEFAULTERSID},
-        },
-      }),
-    );
+          reducerDetails: {
+            actionType: GETTOP5DEFAULTERS,
+            extraProps: {id: GETTOP5DEFAULTERSID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_employee_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETEMPLOYEESSUMMARY,
+            extraProps: {id: GETEMPLOYEESSUMMARYID},
+          },
+        }),
+      );
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps?.auth?.selectedCampusDetails?.campus_id !==
+      this?.props?.auth?.selectedCampusDetails?.campus_id
+    ) {
+      this.props.dispatch(
+        feeSummary({
+          requestDetails: {
+            requestUrl: `/fee/get_fee_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: FEESUMMARY,
+            extraProps: {id: FEESUMMARYID},
+          },
+        }),
+      );
+      this.props.dispatch(
+        totalReceivables({
+          requestDetails: {
+            requestUrl: `/fee/get_total_receivable?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: TOTALRECEIVABLES,
+            extraProps: {id: TOTALRECEIVABLESID},
+          },
+        }),
+      );
+      this.props.dispatch(
+        totalCollectionMonthwise({
+          requestDetails: {
+            requestUrl: `/fee/get_total_collection_monthwise?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: TOTALCOLLECTIONMONTHWISE,
+            extraProps: {id: TOTALCOLLECTIONMONTHWISEID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_admission_left?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETADMISSIONLEFT,
+            extraProps: {id: GETADMISSIONLEFTID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_top_five_defaulters_count?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTOP5DEFAULTERS,
+            extraProps: {id: GETTOP5DEFAULTERSID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_employee_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETEMPLOYEESSUMMARY,
+            extraProps: {id: GETEMPLOYEESSUMMARYID},
+          },
+        }),
+      );
+    }
+  }
+
+  constructData(data) {
+    if (data) {
+      let finalizedData = Object.values(data).map(item => {
+        return item ? parseInt(item?.replace(/,/g, '')) : 0;
+      });
+      return finalizedData;
+    }
+    return [];
   }
 
   render() {
@@ -149,21 +264,16 @@ class Main extends Component {
     let totalReceivableGraphLabels = this.props?.accounts?.totalReceivables
       ? Object.keys(this.props.accounts.totalReceivables)
       : [];
-    let totalReceivableGraphData = this.props?.accounts?.totalReceivables
-      ? Object.values(this.props.accounts.totalReceivables).map(item => {
-          return parseInt(item.replaceAll(',', ''));
-        })
-      : [];
+    let totalReceivableGraphData = this.constructData(
+      this.props?.accounts?.totalReceivables,
+    );
     let totalCollectionMonthwiseGraphLabels = this.props?.accounts
-      ?.totalReceivables
-      ? Object.keys(this.props.accounts.totalReceivables)
+      ?.totalCollectionMonthwise
+      ? Object.keys(this.props.accounts.totalCollectionMonthwise)
       : [];
-    let totalCollectionMonthwiseGraphData = this.props?.accounts
-      ?.totalReceivables
-      ? Object.values(this.props.accounts.totalReceivables).map(item => {
-          return parseInt(item.replaceAll(',', ''));
-        })
-      : [];
+    let totalCollectionMonthwiseGraphData = this.constructData(
+      this.props?.accounts?.totalCollectionMonthwise,
+    );
     const data = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June'],
       datasets: [
@@ -243,7 +353,7 @@ class Main extends Component {
                     style={{
                       width: '100%',
                       color: '#006add',
-                      fontSize: 18,
+                      fontSize: 14,
                       fontWeight: 'bold',
                       textAlign: 'center',
                       marginTop: -10,
@@ -277,7 +387,7 @@ class Main extends Component {
                     style={{
                       width: '100%',
                       color: '#006add',
-                      fontSize: 18,
+                      fontSize: 14,
                       fontWeight: 'bold',
                       textAlign: 'center',
                       marginTop: -10,
@@ -311,7 +421,7 @@ class Main extends Component {
                     style={{
                       width: '100%',
                       color: '#006add',
-                      fontSize: 18,
+                      fontSize: 14,
                       fontWeight: 'bold',
                       textAlign: 'center',
                       marginTop: -10,
@@ -399,6 +509,7 @@ class Main extends Component {
                 </Text>,
               ]}
               cardBody={[
+                // <H1>456</H1>,
                 <CustomLineGraph2
                   graphData={{
                     labels: totalCollectionMonthwiseGraphLabels,
@@ -459,7 +570,7 @@ class Main extends Component {
                   }}
                   // ref={(node) => this.scroll = node}
                 >
-                  <View style={{width: '25%'}}>
+                  <View style={{width: '30%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -509,7 +620,7 @@ class Main extends Component {
                       cardBodyStyle={[{backgroundColor: 'white'}]}
                     />
                   </View>
-                  <View style={{width: '25%'}}>
+                  <View style={{width: '30%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -561,7 +672,7 @@ class Main extends Component {
                     />
                   </View>
 
-                  <View style={{width: '25%'}}>
+                  <View style={{width: '30%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -608,7 +719,7 @@ class Main extends Component {
                       ]}
                     />
                   </View>
-                  <View style={{width: '25%'}}>
+                  <View style={{width: '30%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -912,7 +1023,6 @@ class Main extends Component {
 }
 
 export default connect(state => {
-  console.log('state === ', state);
   return {
     accounts: state.accountsReducer,
     auth: state.authReducer,
