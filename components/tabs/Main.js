@@ -254,23 +254,30 @@ class Main extends Component {
       let finalizedData = Object.values(data).map(item => {
         return item ? parseInt(item?.replace(/,/g, '')) : 0;
       });
-      return finalizedData;
+      return finalizedData.slice(10);
+    }
+    return [];
+  }
+
+  constructLabels(label) {
+    if (label) {
+      let finalizedLabel = Object.keys(label);
+      return finalizedLabel.slice(10);
     }
     return [];
   }
 
   render() {
     let screenWidth = Dimensions.get('window').width;
-    let totalReceivableGraphLabels = this.props?.accounts?.totalReceivables
-      ? Object.keys(this.props.accounts.totalReceivables)
-      : [];
+    let totalReceivableGraphLabels = this.constructLabels(
+      this.props?.accounts?.totalReceivables,
+    );
     let totalReceivableGraphData = this.constructData(
       this.props?.accounts?.totalReceivables,
     );
-    let totalCollectionMonthwiseGraphLabels = this.props?.accounts
-      ?.totalCollectionMonthwise
-      ? Object.keys(this.props.accounts.totalCollectionMonthwise)
-      : [];
+    let totalCollectionMonthwiseGraphLabels = this.constructLabels(
+      this.props?.accounts?.totalCollectionMonthwise,
+    );
     let totalCollectionMonthwiseGraphData = this.constructData(
       this.props?.accounts?.totalCollectionMonthwise,
     );
@@ -466,12 +473,21 @@ class Main extends Component {
                 alignItems: 'center',
               }}
               cardBody={[
-                <CustomBarGraph
-                  graphData={{
-                    labels: totalReceivableGraphLabels,
-                    data: totalReceivableGraphData,
-                  }}
-                />,
+                // <H1>123</H1>,
+                totalReceivableGraphLabels ? (
+                  <CustomBarGraph
+                    graphData={{
+                      labels: totalReceivableGraphLabels
+                        ? totalReceivableGraphLabels
+                        : [],
+                      data: totalReceivableGraphData
+                        ? totalReceivableGraphData
+                        : [],
+                    }}
+                  />
+                ) : (
+                  <></>
+                ),
               ]}
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />
@@ -510,12 +526,20 @@ class Main extends Component {
               ]}
               cardBody={[
                 // <H1>456</H1>,
-                <CustomLineGraph2
-                  graphData={{
-                    labels: totalCollectionMonthwiseGraphLabels,
-                    data: totalCollectionMonthwiseGraphData,
-                  }}
-                />,
+                totalCollectionMonthwiseGraphLabels.length > 0 ? (
+                  <CustomLineGraph2
+                    graphData={{
+                      labels: totalCollectionMonthwiseGraphLabels
+                        ? totalCollectionMonthwiseGraphLabels
+                        : [],
+                      data: totalCollectionMonthwiseGraphData
+                        ? totalCollectionMonthwiseGraphData
+                        : [],
+                    }}
+                  />
+                ) : (
+                  <></>
+                ),
               ]}
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />
@@ -570,7 +594,7 @@ class Main extends Component {
                   }}
                   // ref={(node) => this.scroll = node}
                 >
-                  <View style={{width: '30%'}}>
+                  <View style={{width: '25%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -620,7 +644,7 @@ class Main extends Component {
                       cardBodyStyle={[{backgroundColor: 'white'}]}
                     />
                   </View>
-                  <View style={{width: '30%'}}>
+                  <View style={{width: '25%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -672,7 +696,7 @@ class Main extends Component {
                     />
                   </View>
 
-                  <View style={{width: '30%'}}>
+                  <View style={{width: '25%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -719,7 +743,7 @@ class Main extends Component {
                       ]}
                     />
                   </View>
-                  <View style={{width: '30%'}}>
+                  <View style={{width: '25%'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,

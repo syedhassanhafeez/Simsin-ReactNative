@@ -195,12 +195,13 @@ class Fee extends Component {
                 alignItems: 'center',
               }}
               cardBody={[
-                <CustomLineGraph
-                  graphData={{
-                    labels: totalReceivableGraphLabels,
-                    data: totalReceivableGraphData,
-                  }}
-                />,
+                <H1>789</H1>,
+                // <CustomLineGraph
+                //   graphData={{
+                //     labels: totalReceivableGraphLabels,
+                //     data: totalReceivableGraphData,
+                //   }}
+                // />,
               ]}
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />

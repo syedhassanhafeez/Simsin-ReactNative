@@ -23,14 +23,28 @@ import {
 import {Dimensions} from 'react-native';
 
 const CustomBarGraph = ({graphData}) => {
+  console.log('graphData in CustomeBarGraph === ', graphData);
   return (
     <BarChart
       data={{
-        labels: [...graphData.labels],
+        labels: graphData.labels ? [...graphData.labels] : [0, 1, 2, 3],
         datasets: [
           {
-            data: [...graphData.data],
+            data: graphData.data ? [...graphData.data] : [0, 0, 0, 0],
             colors: [
+              (opacity = 1) => `#006add`,
+              (opacity = 1) => `#39b54a`,
+              (opacity = 1) => `#006add`,
+              (opacity = 1) => `#39b54a`,
+              (opacity = 1) => `#006add`,
+              (opacity = 1) => `#39b54a`,
+              (opacity = 1) => `#006add`,
+              (opacity = 1) => `#39b54a`,
+              (opacity = 1) => `#006add`,
+              (opacity = 1) => `#39b54a`,
+              (opacity = 1) => `#006add`,
+              (opacity = 1) => `#39b54a`,
+              (opacity = 1) => `#006add`,
               (opacity = 1) => `#006add`,
               (opacity = 1) => `#39b54a`,
               (opacity = 1) => `#006add`,
@@ -104,26 +118,26 @@ const CustomLineGraph = ({graphData}) => {
             color: (opacity = 1) => `rgba(56, 179, 73, ${opacity})`, // optional
             strokeWidth: 2, // optional
           },
-          ,
-          {
-            data: [
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-            ],
-            color: () => '#006add',
-            strokeWidth: 2,
-          },
+          // ,
+          // {
+          //   data: [
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //     Math.random() * 100,
+          //   ],
+          //   color: () => '#006add',
+          //   strokeWidth: 2,
+          // },
         ],
         // legend: ['Rainy Days'], // optional
       }}
@@ -150,13 +164,18 @@ const CustomLineGraph = ({graphData}) => {
   );
 };
 const CustomLineGraph2 = ({graphData}) => {
+  console.log('graphData in CustomLineGraph2 === ', graphData);
+  console.log(
+    'graphData.labels ? [...graphData.labels] : [0, 1, 2, 3] === ',
+    graphData.labels ? [...graphData.labels] : [0, 1, 2, 3],
+  );
   return (
     <LineChart
       data={{
-        labels: [...graphData.labels],
+        labels: graphData.labels ? [...graphData.labels] : [0, 1, 2, 3],
         datasets: [
           {
-            data: [...graphData.data],
+            data: graphData.data ? [...graphData.data] : [0, 1, 2, 3],
             color: (opacity = 1) => `rgba(56, 179, 73, ${opacity})`, // optional
             strokeWidth: 2, // optional
           },
