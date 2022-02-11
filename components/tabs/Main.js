@@ -310,7 +310,9 @@ class Main extends Component {
                       color: 'white',
                       fontWeight: 'bold',
                       fontSize: 35,
-                    }}>{`65,520`}</Text>{' '}
+                    }}>
+                    {this.props.accounts.todays_collection}
+                  </Text>{' '}
                 </Text>,
               ]}
               headerStyle={{

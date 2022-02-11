@@ -31,6 +31,7 @@ class PickerInputExample extends Component {
     }
   }
   onValueChange2(value) {
+    console.log('vlue === ', value);
     this.props.dispatch(
       changeCampus({
         type: CHANGECAMPUS,
@@ -84,6 +85,7 @@ class PickerInputExample extends Component {
       </Select> */
 }
 export default connect(state => {
+  console.log('state === ', state);
   return {
     auth: state.authReducer,
     loader: state.loaderReducer,

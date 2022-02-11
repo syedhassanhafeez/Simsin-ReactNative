@@ -26,7 +26,7 @@ export default function (state = initialState, action) {
       console.log('campus_id === ', campus_id);
       return {
         ...state,
-        selectedCampusDetails: campus_id.length > 0 ? campus_id : {},
+        selectedCampusDetails: campus_id.length > 0 ? campus_id[0] : {},
       };
     default:
       return state;
