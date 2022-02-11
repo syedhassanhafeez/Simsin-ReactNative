@@ -17,6 +17,7 @@ import {
   Body,
   Button,
 } from 'native-base';
+import {connect} from 'react-redux';
 import CustomTable from '../customTable';
 import {CustomBarGraph, CustomLineGraph} from '../graphs';
 import CardItemBordered from '../cards/CardItemBordered';
@@ -26,8 +27,108 @@ import CustomTable2 from '../customTable/secondTable';
 import CustomTable3 from '../customTable/thirdTable';
 import CustomTable4 from '../customTable/fourTable';
 import CustomTable5 from '../customTable/fifthTable';
+import {GETLATESTAFFSUMMARY, GETTODAYSABSENTSUMMARY} from '../../constants';
+import {
+  GETLATESTAFFSUMMARYID,
+  GETTODAYSABSENTSUMMARYID,
+} from '../../constants/ids';
+import {genericAction} from '../../redux/actions';
 
-export default class Fee extends Component {
+class Academics extends Component {
+  componentDidMount() {
+    if (this?.props?.auth?.selectedCampusDetails?.campus_id) {
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_todays_absent_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTODAYSABSENTSUMMARY,
+            extraProps: {id: GETTODAYSABSENTSUMMARYID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_top_five_late_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETLATESTAFFSUMMARY,
+            extraProps: {id: GETLATESTAFFSUMMARYID},
+          },
+        }),
+      );
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps?.auth?.selectedCampusDetails?.campus_id !==
+      this?.props?.auth?.selectedCampusDetails?.campus_id
+    ) {
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_todays_absent_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTODAYSABSENTSUMMARY,
+            extraProps: {id: GETTODAYSABSENTSUMMARYID},
+          },
+        }),
+      );
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_top_five_late_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETLATESTAFFSUMMARY,
+            extraProps: {id: GETLATESTAFFSUMMARY},
+          },
+        }),
+      );
+    }
+  }
+
+  constructHeadTable() {
+    // if (head) {
+    //   let finalizedHeadTable = Object.keys(head[0]);
+    //   return finalizedHeadTable;
+    // }
+    return ['Emp.ID', 'Name', 'Dept.', 'Desg.'];
+  }
+
+  constructDataTable(data) {
+    if (data) {
+      let finalizedDataTable = data.map(item => Object.values(item));
+      return finalizedDataTable;
+    }
+    return [
+      ['', '', '', ''],
+      ['', '', '', ''],
+      ['', '', '', ''],
+      ['', '', '', ''],
+      ['', '', '', ''],
+      ['', '', '', ''],
+      ['', '', '', ''],
+    ];
+  }
+
   render() {
     const data = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June'],
@@ -37,6 +138,15 @@ export default class Fee extends Component {
         },
       ],
     };
+
+    let todaysAbsentTableDataTable = this.constructDataTable(
+      this?.props?.academics?.todays_absent_summary,
+    );
+
+    let lateStaffTableDataTable = this.constructDataTable(
+      this?.props?.academics?.late_staff_summary,
+    );
+
     return (
       <View style={{backgroundColor: 'white'}}>
         {/* <PickerInput /> */}
@@ -101,7 +211,9 @@ export default class Fee extends Component {
                             textAlign: 'center',
                             marginTop: -10,
                           }}>
-                          55
+                          {this?.props?.hr?.total_staff
+                            ? this?.props?.hr?.total_staff
+                            : 0}
                         </H2>,
                       ]}
                     />
@@ -135,7 +247,9 @@ export default class Fee extends Component {
                             textAlign: 'center',
                             marginTop: -10,
                           }}>
-                          3
+                          {this?.props?.hr?.todays_absent
+                            ? this?.props?.hr?.todays_absent
+                            : 0}
                         </H2>,
                       ]}
                     />
@@ -166,7 +280,9 @@ export default class Fee extends Component {
                             textAlign: 'center',
                             marginTop: -10,
                           }}>
-                          235
+                          {this?.props?.hr?.todays_late
+                            ? this?.props?.hr?.todays_late
+                            : 0}
                         </H2>,
                       ]}
                     />
@@ -207,7 +323,13 @@ export default class Fee extends Component {
               headerStyle={{
                 width: '100%',
               }}
-              cardBody={[<CustomTable2 />]}
+              cardBody={[
+                <CustomTable2
+                  tableData={{
+                    dataTable: todaysAbsentTableDataTable,
+                  }}
+                />,
+              ]}
             />
           </View>
           <View>
@@ -228,7 +350,13 @@ export default class Fee extends Component {
                   }}>{`Top 5 Late staff (Current month)`}</Text>,
               ]}
               headerStyle={{width: '100%'}}
-              cardBody={[<CustomTable5 />]}
+              cardBody={[
+                <CustomTable5
+                  tableData={{
+                    dataTable: lateStaffTableDataTable,
+                  }}
+                />,
+              ]}
             />
           </View>
           {/* <View style={{
@@ -501,3 +629,12 @@ export default class Fee extends Component {
     );
   }
 }
+
+export default connect(state => {
+  return {
+    accounts: state.accountsReducer,
+    auth: state.authReducer,
+    academics: state.academicsReducer,
+    hr: state.hrReducer,
+  };
+})(Academics);

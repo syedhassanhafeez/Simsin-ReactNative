@@ -15,22 +15,24 @@ export default class CustomTable5 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      HeadTable: ['Emp.ID', 'Name', 'Desig.','No. of Late'],
+      HeadTable: ['Emp.ID', 'Name', 'Desig.', 'No. of Late'],
       widthArr: [
         windowWidth / 4.5,
         windowWidth / 3,
         windowWidth / 4,
         windowWidth / 5,
       ],
-      DataTable: [
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-      ],
+      DataTable: this?.props?.tableData?.dataTable
+        ? [...this?.props?.tableData?.dataTable]
+        : [
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+          ],
     };
   }
 

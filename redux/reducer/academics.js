@@ -1,4 +1,8 @@
-import {GETADMISSIONLEFT} from '../../constants';
+import {
+  GETADMISSIONLEFT,
+  GETLATESTAFFSUMMARY,
+  GETTODAYSABSENTSUMMARY,
+} from '../../constants';
 
 const initialState = {
   enquires: {},
@@ -6,6 +10,8 @@ const initialState = {
   student_left: {},
   admission_fee: {},
   bed_debt: {},
+  todays_absent_summary: [],
+  late_staff_summary: [],
 };
 
 export default function (state = initialState, action) {
@@ -19,6 +25,20 @@ export default function (state = initialState, action) {
         admission_fee:
           action?.payload?.responsePayload?.response?.admission_fee,
         bed_debt: action?.payload?.responsePayload?.response?.bed_debt,
+      };
+    case GETTODAYSABSENTSUMMARY:
+      return {
+        ...state,
+        todays_absent_summary: action?.payload?.responsePayload?.response
+          ? action?.payload?.responsePayload?.response
+          : [],
+      };
+    case GETLATESTAFFSUMMARY:
+      return {
+        ...state,
+        late_staff_summary: action?.payload?.responsePayload?.response
+          ? action?.payload?.responsePayload?.response
+          : [],
       };
     default:
       return state;
