@@ -544,6 +544,266 @@ class Main extends Component {
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />
           </View>
+          {/* <View>
+            <CardItemBordered
+              cardStyle={{
+                marginLeft: 0,
+                marginRight: 0,
+                marginTop: 0,
+                marginBottom: 0,
+                textAlign: 'center',
+                backgroundColor: '#006add',
+              }}
+              headerText={[
+                <Text style={{color: 'white', width: '100%'}}>
+                  {'Admission & Left'}
+                </Text>,
+              ]}
+              viewButton={[
+                <Button
+                  // onPress={() => { this.scroll.scrollTo({ x: screenWidth }) }}
+                  active
+                  onPress={() => this.props.onTabPress(3)}
+                  iconRight
+                  small
+                  success
+                  style={{width: '100%', borderRadius: 8}}>
+                  <Text style={{textTransform: 'capitalize'}}>View More</Text>
+                  <Icon
+                    name="chevron-forward"
+                    style={{marginLeft: -20, fontSize: 20}}
+                  />
+                </Button>,
+              ]}
+              headerStyle={{
+                flexDirection: 'row',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+              useOtherTag={true}
+              cardBody={[
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    textAlign: 'center',
+                  }}
+                  // ref={(node) => this.scroll = node}
+                >
+                  <View style={{width: '25%'}}>
+                    <CardItemBordered
+                      cardStyle={{
+                        shadowOpacity: 0.3,
+                        elevation: 10,
+                        borderRadius: 8,
+                        borderBottomColor: '#37b349',
+                        borderBottomWidth: 4,
+                      }}
+                      headerText={[
+                        <Text style={{fontSize: 13, color: 'grey'}}>
+                          Enquiries
+                        </Text>,
+                      ]}
+                      viewButton={[
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            color: '#37b349',
+                          }}>
+                          {this?.props?.academics?.enquiries?.count
+                            ? this?.props?.academics?.enquiries?.count
+                            : 0}
+                        </Text>,
+                      ]}
+                      useOtherTag={true}
+                      headerStyle={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 0.7,
+                        flexDirection: 'row',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      cardBody={[
+                        <H1
+                          style={{
+                            width: '100%',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          -
+                        </H1>,
+                      ]}
+                      cardBodyStyle={[{backgroundColor: 'white'}]}
+                    />
+                  </View>
+                  <View style={{width: '25%'}}>
+                    <CardItemBordered
+                      cardStyle={{
+                        shadowOpacity: 0.3,
+                        elevation: 10,
+                        borderRadius: 8,
+                        borderBottomColor: '#37b349',
+                        borderBottomWidth: 4,
+                      }}
+                      headerText={[
+                        <Text style={{fontSize: 13, color: 'grey'}}>Adm.</Text>,
+                      ]}
+                      viewButton={[
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            color: '#37b349',
+                          }}>
+                          {this?.props?.academics?.admission?.count
+                            ? this?.props?.academics?.admission?.count
+                            : 0}
+                        </Text>,
+                      ]}
+                      useOtherTag={true}
+                      headerStyle={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 0.7,
+                        flexDirection: 'row',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      cardBody={[
+                        <H1
+                          style={{
+                            width: '100%',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          {this?.props?.academics?.admission?.amount
+                            ? this?.props?.academics?.admission?.amount
+                            : 0}
+                        </H1>,
+                      ]}
+                    />
+                  </View>
+
+                  <View style={{width: '25%'}}>
+                    <CardItemBordered
+                      cardStyle={{
+                        shadowOpacity: 0.3,
+                        elevation: 10,
+                        borderRadius: 8,
+                        borderBottomColor: '#37b349',
+                        borderBottomWidth: 4,
+                      }}
+                      headerText={[
+                        <Text style={{fontSize: 13, color: 'grey'}}>Reg.</Text>,
+                      ]}
+                      viewButton={[
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            color: '#37b349',
+                          }}>
+                          {this?.props?.academics?.registration?.amount
+                            ? this?.props?.academics?.registration?.amount
+                            : 0}
+                        </Text>,
+                      ]}
+                      useOtherTag={true}
+                      headerStyle={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 0.7,
+                        flexDirection: 'row',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      cardBody={[
+                        <H1
+                          style={{
+                            width: '100%',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          {this?.props?.academics?.registration?.amount
+                            ? this?.props?.academics?.registration?.amount
+                            : 0}
+                        </H1>,
+                      ]}
+                    />
+                  </View>
+                  <View style={{width: '25%'}}>
+                    <CardItemBordered
+                      cardStyle={{
+                        shadowOpacity: 0.3,
+                        elevation: 10,
+                        borderRadius: 8,
+                        borderBottomColor: '#37b349',
+                        borderBottomWidth: 4,
+                      }}
+                      headerText={[
+                        <Text style={{fontSize: 13, color: 'grey'}}>
+                          Stu. Left
+                        </Text>,
+                      ]}
+                      viewButton={[
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            color: '#37b349',
+                          }}>
+                          {this?.props?.academics?.student_left?.count
+                            ? this?.props?.academics?.student_left?.count
+                            : 0}
+                        </Text>,
+                      ]}
+                      useOtherTag={true}
+                      headerStyle={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 0.7,
+                        flexDirection: 'row',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      cardBody={[
+                        <H1
+                          style={{
+                            width: 'auto',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          {this?.props?.academics?.student_left?.amount
+                            ? this?.props?.academics?.student_left?.amount
+                            : 0}
+                        </H1>,
+                      ]}
+                    />
+                  </View>
+                </ScrollView>,
+              ]}
+              cardBodyStyle={[
+                {
+                  backgroundColor: '#006add',
+                  height: 'auto',
+                },
+              ]}
+            />
+          </View> */}
           <View>
             <CardItemBordered
               cardStyle={{
@@ -717,7 +977,9 @@ class Main extends Component {
                             fontWeight: 'bold',
                             color: '#37b349',
                           }}>
-                          10
+                          {this?.props?.academics?.registration?.count
+                            ? this?.props?.academics?.registration?.count
+                            : 0}
                         </Text>,
                       ]}
                       useOtherTag={true}
@@ -738,7 +1000,9 @@ class Main extends Component {
                             fontWeight: 'bold',
                             textAlign: 'center',
                           }}>
-                          25,500
+                          {this?.props?.academics?.registration?.amount
+                            ? this?.props?.academics?.registration?.amount
+                            : 0}
                         </H1>,
                       ]}
                     />
