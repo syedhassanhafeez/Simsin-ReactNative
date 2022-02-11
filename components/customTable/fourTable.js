@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { Text, View } from 'native-base';
+import React, {Component} from 'react';
+import {StyleSheet} from 'react-native';
+import {Text, View} from 'native-base';
 import {
   Table,
   TableWrapper,
@@ -8,7 +8,7 @@ import {
   Rows,
   Col,
 } from 'react-native-table-component';
-import { Dimensions } from "react-native";
+import {Dimensions} from 'react-native';
 
 const windowWidth = Dimensions.get('window').width - 40;
 export default class CustomTable4 extends Component {
@@ -16,8 +16,7 @@ export default class CustomTable4 extends Component {
     super(props);
     this.state = {
       HeadTable: [`${this.props.tableHeader}`],
-      widthArr: [
-        windowWidth],
+      widthArr: [windowWidth],
       DataTable: [],
     };
   }
@@ -36,12 +35,9 @@ export default class CustomTable4 extends Component {
           flexDirection: 'row',
         }}>
         <>
-          <Text style={{ color: 'grey' }}>
-            {rowData.name}
-          </Text>
-          <Text style={{ color: '#006add', fontWeight: 'bold' }}>
+          <Text style={{color: 'grey'}}>{rowData.name}</Text>
+          <Text style={{color: '#006add', fontWeight: 'bold'}}>
             {rowData.amount}
-
           </Text>
         </>
       </View>,
@@ -50,14 +46,22 @@ export default class CustomTable4 extends Component {
 
   componentDidMount() {
     let data = [
-      { name: 'Salary Staff', amount: '53', first: true },
-      { name: 'Gross Salary', amount: '624050' },
-      { name: 'Allowances', amount: '20000' },
-      { name: 'Deductions', amount: '-126000' },
-      { name: 'Net Salary', amount: '518050', last: true },
+      {
+        name: 'Salary Staff',
+        amount: this.props?.monthData?.emp_count,
+        first: true,
+      },
+      {name: 'Gross Salary', amount: this.props?.monthData?.gross_salary},
+      {name: 'Allowances', amount: this.props?.monthData?.allowances},
+      {name: 'Deductions', amount: this.props?.monthData?.deductions},
+      {
+        name: 'Net Salary',
+        amount: this.props?.monthData?.net_salary,
+        last: true,
+      },
     ];
     let constructedData = data.map(item => this.constructTableData(item));
-    this.setState({ DataTable: [...constructedData] });
+    this.setState({DataTable: [...constructedData]});
   }
 
   render() {
@@ -115,7 +119,5 @@ const styles = StyleSheet.create({
 
   TableText: {
     // padding: 15
-
   },
-
 });

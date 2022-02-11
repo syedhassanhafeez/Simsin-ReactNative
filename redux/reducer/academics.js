@@ -1,6 +1,8 @@
 import {
   GETADMISSIONLEFT,
   GETLATESTAFFSUMMARY,
+  GETLWPLASTTWOMONTHS,
+  GETSALARYLASTTWOMONTHS,
   GETTODAYSABSENTSUMMARY,
 } from '../../constants';
 
@@ -12,6 +14,8 @@ const initialState = {
   bed_debt: {},
   todays_absent_summary: [],
   late_staff_summary: [],
+  lwp_last_two_months: [],
+  get_salary_last_two_months: [],
 };
 
 export default function (state = initialState, action) {
@@ -37,6 +41,22 @@ export default function (state = initialState, action) {
       return {
         ...state,
         late_staff_summary: action?.payload?.responsePayload?.response
+          ? action?.payload?.responsePayload?.response
+          : [],
+      };
+
+    case GETLWPLASTTWOMONTHS:
+      return {
+        ...state,
+        lwp_last_two_months: action?.payload?.responsePayload?.response
+          ? action?.payload?.responsePayload?.response
+          : [],
+      };
+
+    case GETSALARYLASTTWOMONTHS:
+      return {
+        ...state,
+        get_salary_last_two_months: action?.payload?.responsePayload?.response
           ? action?.payload?.responsePayload?.response
           : [],
       };

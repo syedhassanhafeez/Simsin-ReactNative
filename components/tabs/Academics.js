@@ -27,9 +27,16 @@ import CustomTable2 from '../customTable/secondTable';
 import CustomTable3 from '../customTable/thirdTable';
 import CustomTable4 from '../customTable/fourTable';
 import CustomTable5 from '../customTable/fifthTable';
-import {GETLATESTAFFSUMMARY, GETTODAYSABSENTSUMMARY} from '../../constants';
+import {
+  GETLATESTAFFSUMMARY,
+  GETLWPLASTTWOMONTHS,
+  GETSALARYLASTTWOMONTHS,
+  GETTODAYSABSENTSUMMARY,
+} from '../../constants';
 import {
   GETLATESTAFFSUMMARYID,
+  GETLWPLASTTWOMONTHSID,
+  GETSALARYLASTTWOMONTHSID,
   GETTODAYSABSENTSUMMARYID,
 } from '../../constants/ids';
 import {genericAction} from '../../redux/actions';
@@ -37,6 +44,7 @@ import {genericAction} from '../../redux/actions';
 class Academics extends Component {
   componentDidMount() {
     if (this?.props?.auth?.selectedCampusDetails?.campus_id) {
+      console.log('GETLWPLASTTWOMONTHS ==== ', GETLWPLASTTWOMONTHS);
       this.props.dispatch(
         genericAction({
           requestDetails: {
@@ -63,6 +71,35 @@ class Academics extends Component {
           reducerDetails: {
             actionType: GETLATESTAFFSUMMARY,
             extraProps: {id: GETLATESTAFFSUMMARYID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_lwp_last_two_months?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETLWPLASTTWOMONTHS,
+            extraProps: {id: GETLWPLASTTWOMONTHSID},
+          },
+        }),
+      );
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_salary_last_two_months?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETSALARYLASTTWOMONTHS,
+            extraProps: {id: GETSALARYLASTTWOMONTHSID},
           },
         }),
       );
@@ -102,15 +139,37 @@ class Academics extends Component {
           },
         }),
       );
-    }
-  }
 
-  constructHeadTable() {
-    // if (head) {
-    //   let finalizedHeadTable = Object.keys(head[0]);
-    //   return finalizedHeadTable;
-    // }
-    return ['Emp.ID', 'Name', 'Dept.', 'Desg.'];
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_lwp_last_two_months?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETLWPLASTTWOMONTHS,
+            extraProps: {id: GETLWPLASTTWOMONTHSID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_salary_last_two_months?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETSALARYLASTTWOMONTHS,
+            extraProps: {id: GETSALARYLASTTWOMONTHSID},
+          },
+        }),
+      );
+    }
   }
 
   constructDataTable(data) {
@@ -428,7 +487,94 @@ class Academics extends Component {
                     alignItems: 'center',
                     flexWrap: 'wrap',
                   }}>
-                  <View style={{width: '48%', height: 'auto'}}>
+                  {this.props.academics.lwp_last_two_months.map(item => (
+                    <View style={{width: '48%', height: 'auto'}}>
+                      <CardItemBordered
+                        cardStyle={{
+                          shadowOpacity: 0.3,
+                          elevation: 10,
+                          borderRadius: 8,
+                          borderBottomColor: '#37b349',
+                          borderBottomWidth: 4,
+                        }}
+                        headerText={[<></>]}
+                        headerStyle={{
+                          textAlign: 'center',
+                          width: '100%',
+                          backgroundColor: 'blue',
+                        }}
+                        useOtherTag={true}
+                        doNotUseHeaders={true}
+                        cardBody={[
+                          <View
+                            style={{
+                              // textAlign: 'center',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              textAlign: 'center',
+                              alignItems: 'center',
+                              width: '100%',
+                            }}>
+                            <Text
+                              style={{
+                                color: 'grey',
+                              }}>{`Month:${item.month}`}</Text>
+                            <Text
+                              style={{
+                                backgroundColor: '#37b349',
+                                color: 'white',
+                                // fontSize: 18,
+                                width: '100%',
+                                textAlign: 'center',
+                                // padding: 10,
+                                marginTop: 5,
+                                paddingTop: 5,
+                                paddingBottom: 5,
+                              }}>
+                              {'Deducted Days'}
+                            </Text>
+                            <Text style={{marginTop: 20, marginBottom: 20}}>
+                              <H1
+                                style={{
+                                  color: '#006add',
+                                  fontWeight: 'bold',
+                                }}>{`${item.deducted_days}`}</H1>
+                            </Text>
+                            <Text
+                              style={{
+                                backgroundColor: '#37b349',
+                                color: 'white',
+                                // fontSize: 18,
+                                width: '100%',
+                                textAlign: 'center',
+                                // padding: 10,
+                                paddingTop: 5,
+                                paddingBottom: 5,
+                              }}>
+                              {'LWP Amount'}
+                            </Text>
+                            <Text style={{marginTop: 20}}>
+                              <H1
+                                style={{
+                                  backgroundColor: 'white',
+                                  color: '#006add',
+                                  fontWeight: 'bold',
+                                }}>{`${item.amount}`}</H1>
+                            </Text>
+                          </View>,
+                        ]}
+                        cardBodyStyle={[
+                          {
+                            height: 'auto',
+                            paddingLeft: 0,
+                            paddingRight: 0,
+                          },
+                        ]}
+                      />
+                    </View>
+                  ))}
+
+                  {/* <View style={{width: '48%', height: 'auto'}}>
                     <CardItemBordered
                       cardStyle={{
                         shadowOpacity: 0.3,
@@ -455,49 +601,65 @@ class Academics extends Component {
                             alignItems: 'center',
                             width: '100%',
                           }}>
-                          <Text style={{color: 'grey'}}>{'Month:Sept.21'}</Text>
-                          <Text
-                            style={{
-                              backgroundColor: '#37b349',
-                              color: 'white',
-                              // fontSize: 18,
-                              width: '100%',
-                              textAlign: 'center',
-                              // padding: 10,
-                              marginTop: 5,
-                              paddingTop: 5,
-                              paddingBottom: 5,
-                            }}>
-                            {'Deducted Days'}
-                          </Text>
-                          <Text style={{marginTop: 20, marginBottom: 20}}>
-                            <H1
-                              style={{
-                                color: '#006add',
-                                fontWeight: 'bold',
-                              }}>{`25`}</H1>
-                          </Text>
-                          <Text
-                            style={{
-                              backgroundColor: '#37b349',
-                              color: 'white',
-                              // fontSize: 18,
-                              width: '100%',
-                              textAlign: 'center',
-                              // padding: 10,
-                              paddingTop: 5,
-                              paddingBottom: 5,
-                            }}>
-                            {'LWP Amount'}
-                          </Text>
-                          <Text style={{marginTop: 20}}>
-                            <H1
-                              style={{
-                                backgroundColor: 'white',
-                                color: '#006add',
-                                fontWeight: 'bold',
-                              }}>{`104,543`}</H1>
-                          </Text>
+                          {this.props.academics.lwp_last_two_months.map(
+                            item => {
+                              return (
+                                <>
+                                  <Text
+                                    style={{
+                                      color: 'grey',
+                                      // backgroundColor: 'red',
+                                      // width: '100%',
+                                    }}>
+                                    {`Month:${item.month}`}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      backgroundColor: '#37b349',
+                                      color: 'white',
+                                      // fontSize: 18,
+                                      width: '100%',
+                                      textAlign: 'center',
+                                      // padding: 10,
+                                      marginTop: 5,
+                                      paddingTop: 5,
+                                      paddingBottom: 5,
+                                    }}>
+                                    {'Deducted Days'}
+                                  </Text>
+                                  <Text
+                                    style={{marginTop: 20, marginBottom: 20}}>
+                                    <H1
+                                      style={{
+                                        color: '#006add',
+                                        fontWeight: 'bold',
+                                      }}>{`${item.deducted_days}`}</H1>
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      backgroundColor: '#37b349',
+                                      color: 'white',
+                                      // fontSize: 18,
+                                      width: '100%',
+                                      textAlign: 'center',
+                                      // padding: 10,
+                                      paddingTop: 5,
+                                      paddingBottom: 5,
+                                    }}>
+                                    {'LWP Amount'}
+                                  </Text>
+                                  <Text style={{marginTop: 20}}>
+                                    <H1
+                                      style={{
+                                        backgroundColor: 'white',
+                                        color: '#006add',
+                                        fontWeight: 'bold',
+                                      }}>{`${item.amount}`}</H1>
+                                  </Text>
+                                </>
+                              );
+                            },
+                          )}
                         </View>,
                       ]}
                       cardBodyStyle={[
@@ -508,95 +670,7 @@ class Academics extends Component {
                         },
                       ]}
                     />
-                  </View>
-                  <View style={{width: '48%', height: 'auto'}}>
-                    <CardItemBordered
-                      cardStyle={{
-                        shadowOpacity: 0.3,
-                        elevation: 10,
-                        borderRadius: 8,
-                        borderBottomColor: '#37b349',
-                        borderBottomWidth: 4,
-                      }}
-                      headerText={[<></>]}
-                      headerStyle={{
-                        textAlign: 'center',
-                        width: '100%',
-                        backgroundColor: 'blue',
-                      }}
-                      useOtherTag={true}
-                      doNotUseHeaders={true}
-                      cardBody={[
-                        <View
-                          style={{
-                            // textAlign: 'center',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            textAlign: 'center',
-                            alignItems: 'center',
-                            width: '100%',
-                          }}>
-                          <Text
-                            style={{
-                              color: 'grey',
-                              // backgroundColor: 'red',
-                              // width: '100%',
-                            }}>
-                            {'Month:Aug.21'}
-                          </Text>
-                          <Text
-                            style={{
-                              backgroundColor: '#37b349',
-                              color: 'white',
-                              // fontSize: 18,
-                              width: '100%',
-                              textAlign: 'center',
-                              // padding: 10,
-                              marginTop: 5,
-                              paddingTop: 5,
-                              paddingBottom: 5,
-                            }}>
-                            {'Deducted Days'}
-                          </Text>
-                          <Text style={{marginTop: 20, marginBottom: 20}}>
-                            <H1
-                              style={{
-                                color: '#006add',
-                                fontWeight: 'bold',
-                              }}>{`25`}</H1>
-                          </Text>
-                          <Text
-                            style={{
-                              backgroundColor: '#37b349',
-                              color: 'white',
-                              // fontSize: 18,
-                              width: '100%',
-                              textAlign: 'center',
-                              // padding: 10,
-                              paddingTop: 5,
-                              paddingBottom: 5,
-                            }}>
-                            {'LWP Amount'}
-                          </Text>
-                          <Text style={{marginTop: 20}}>
-                            <H1
-                              style={{
-                                backgroundColor: 'white',
-                                color: '#006add',
-                                fontWeight: 'bold',
-                              }}>{`95,665`}</H1>
-                          </Text>
-                        </View>,
-                      ]}
-                      cardBodyStyle={[
-                        {
-                          height: 'auto',
-                          paddingLeft: 0,
-                          paddingRight: 0,
-                        },
-                      ]}
-                    />
-                  </View>
+                  </View> */}
                 </View>,
               ]}
               cardBodyStyle={[
@@ -616,10 +690,16 @@ class Academics extends Component {
                 marginBottom: 0,
               }}
               useOtherTag={true}
-              headerText={[
-                <CustomTable4 tableHeader={`Sep. 2021 Salary`} />,
-                <CustomTable4 tableHeader={`Aug. 2021 Salary`} />,
-              ]}
+              headerText={this.props.academics.get_salary_last_two_months.map(
+                item => {
+                  return (
+                    <CustomTable4
+                      tableHeader={`${item.month} Salary`}
+                      monthData={{...item}}
+                    />
+                  );
+                },
+              )}
               headerStyle={{width: '100%'}}
               cardBody={[]}
             />

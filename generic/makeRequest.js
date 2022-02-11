@@ -34,6 +34,10 @@ const makeRequest =
         });
       })
       .catch(outerEx => {
+        console.log('actionType in error === ', {
+          requestDetails,
+          reducerDetails,
+        });
         if (extraProps?.id) {
           dispatch({
             type: REQUESTEND,

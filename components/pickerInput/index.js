@@ -85,7 +85,6 @@ class PickerInputExample extends Component {
       </Select> */
 }
 export default connect(state => {
-  console.log('state === ', state);
   return {
     auth: state.authReducer,
     loader: state.loaderReducer,
