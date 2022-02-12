@@ -23,8 +23,12 @@ import {CustomBarGraph, CustomLineGraph} from '../graphs';
 import CardItemBordered from '../cards/CardItemBordered';
 import PickerInput from '../pickerInput';
 import {ScrollView} from 'react-native';
-import {GETTOP5DEFAULTERSSUMMARY} from '../../constants';
-import {GETTOP5DEFAULTERSSUMMARYID} from '../../constants/ids';
+import {GETTFCOMPARISON, GETTOP5DEFAULTERSSUMMARY} from '../../constants';
+import {
+  GETTFCOMPARISONID,
+  GETTOP5DEFAULTERSSUMMARYID,
+} from '../../constants/ids';
+import {genericAction} from '../../redux/actions';
 
 class Fee extends Component {
   componentDidMount() {
@@ -40,6 +44,21 @@ class Fee extends Component {
           reducerDetails: {
             actionType: GETTOP5DEFAULTERSSUMMARY,
             extraProps: {id: GETTOP5DEFAULTERSSUMMARYID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_tf_comparison?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTFCOMPARISON,
+            extraProps: {id: GETTFCOMPARISONID},
           },
         }),
       );
@@ -65,7 +84,34 @@ class Fee extends Component {
           },
         }),
       );
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_tf_comparison?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTFCOMPARISON,
+            extraProps: {id: GETTFCOMPARISONID},
+          },
+        }),
+      );
     }
+  }
+
+  constructDataTable(data) {
+    console.log('data === ', data);
+
+    if (data) {
+      let finalizedDataTable = data.map(item => Object.values(item));
+      if (finalizedDataTable.length > 0) {
+        return finalizedDataTable;
+      }
+      return [];
+    }
+    return [];
   }
 
   render() {
@@ -77,6 +123,10 @@ class Fee extends Component {
     //       return parseInt(item.replaceAll(',', ''));
     //     })
     //   : [];
+    let top5DefaultersSummaryData = this.constructDataTable(
+      this?.props?.accounts?.top_five_defaulters_summary,
+    );
+    console.log('top5DefaultersSummaryData === ', top5DefaultersSummaryData);
     return (
       <View style={{backgroundColor: 'white'}}>
         {/* <PickerInput /> */}
@@ -118,7 +168,11 @@ class Fee extends Component {
                 }}
                 useOtherTag={true}
                 headerText={[
-                  <CustomTable tableData={{dataTable: tableData}} />,
+                  <CustomTable
+                    tableData={{
+                      dataTable: top5DefaultersSummaryData,
+                    }}
+                  />,
                 ]}
                 headerStyle={{
                   textAlign: 'center',
@@ -256,7 +310,7 @@ class Fee extends Component {
                             color: '#006add',
                             fontWeight: 'bold',
                           }}>
-                          {'\n435,345'}
+                          {`\n${this.props.fee.last_month_collection}`}
                         </H1>,
                       ]}
                       headerStyle={{
@@ -288,7 +342,7 @@ class Fee extends Component {
                             color: '#006add',
                             fontWeight: 'bold',
                           }}>
-                          {'\n435,345'}
+                          {`\n${this.props.fee.this_month_collection}`}
                         </H1>,
                       ]}
                       headerStyle={{
@@ -335,7 +389,8 @@ export default connect(state => {
   return {
     accounts: state.accountsReducer,
     auth: state.authReducer,
-    academics: state.academicsReducer,
-    hr: state.hrReducer,
+    fee: state.feeReducer,
+    // academics: state.academicsReducer,
+    // hr: state.hrReducer,
   };
 })(Fee);

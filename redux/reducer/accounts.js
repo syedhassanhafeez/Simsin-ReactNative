@@ -60,6 +60,9 @@ export default function (state = initialState, action) {
           action?.payload?.responsePayload?.response?.top_five_defaulters_count,
       };
     case GETTOP5DEFAULTERSSUMMARY:
+      console.log(
+        `GETTOP5DEFAULTERSSUMMARY action?.payload?.responsePayload?.response === ${action?.payload?.responsePayload?.response}`,
+      );
       return {
         ...state,
         top_five_defaulters_summary: action?.payload?.responsePayload?.response
