@@ -38,6 +38,7 @@ export default class CustomTable5 extends Component {
 
   render() {
     const state = this.state;
+    console.log('this?.props?.tableData === ', this?.props?.tableData);
     return (
       <View style={styles.container}>
         <Table
@@ -53,7 +54,19 @@ export default class CustomTable5 extends Component {
           />
           <Rows
             widthArr={state.widthArr}
-            data={state.DataTable}
+            data={
+              this?.props?.tableData?.dataTable?.length
+                ? [...this?.props?.tableData?.dataTable]
+                : [
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                  ]
+            }
             textStyle={styles.TableText}
           />
         </Table>

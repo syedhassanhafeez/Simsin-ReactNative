@@ -23,7 +23,6 @@ import {
 import {Dimensions} from 'react-native';
 
 const CustomBarGraph = ({graphData}) => {
-  console.log('graphData in CustomeBarGraph === ', graphData);
   return (
     <BarChart
       data={{
@@ -164,11 +163,6 @@ const CustomLineGraph = ({graphData}) => {
   );
 };
 const CustomLineGraph2 = ({graphData}) => {
-  console.log('graphData in CustomLineGraph2 === ', graphData);
-  console.log(
-    'graphData.labels ? [...graphData.labels] : [0, 1, 2, 3] === ',
-    graphData.labels ? [...graphData.labels] : [0, 1, 2, 3],
-  );
   return (
     <LineChart
       data={{

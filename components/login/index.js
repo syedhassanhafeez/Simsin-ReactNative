@@ -53,10 +53,9 @@ class Login extends Component {
   userLogin = loginID => {
     let email = this.state.email;
     let password = this.state.password;
-    console.log({email, password});
     if (email && password) {
       // if validation fails, value will be null
-      console.log('calling');
+
       this.props.dispatch(
         login({
           requestDetails: {
@@ -78,7 +77,6 @@ class Login extends Component {
   };
 
   handleHidePassword() {
-    console.log('Hi');
     this.setState(state => {
       return {
         ...state,
@@ -178,7 +176,6 @@ class Login extends Component {
   }
 }
 function mapStateToProps(state) {
-  console.log('state in Login === ', state);
   return state;
 }
 

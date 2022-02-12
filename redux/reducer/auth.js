@@ -23,7 +23,6 @@ export default function (state = initialState, action) {
       let campus_id = state.loggedInUserDetails.user_campus.filter(
         item => item.campus_id === action.payload.id,
       );
-      console.log('campus_id === ', campus_id);
       return {
         ...state,
         selectedCampusDetails: campus_id.length > 0 ? campus_id[0] : {},

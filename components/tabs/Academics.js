@@ -44,7 +44,6 @@ import {genericAction} from '../../redux/actions';
 class Academics extends Component {
   componentDidMount() {
     if (this?.props?.auth?.selectedCampusDetails?.campus_id) {
-      console.log('GETLWPLASTTWOMONTHS ==== ', GETLWPLASTTWOMONTHS);
       this.props.dispatch(
         genericAction({
           requestDetails: {
@@ -107,6 +106,20 @@ class Academics extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // if (
+    //   this?.props?.academics?.todays_absent_summary &&
+    //   prevProps?.academics?.todays_absent_summary?.length !==
+    //     this?.props?.academics?.todays_absent_summary?.length
+    // ) {
+    //   this.constructDataTable(this?.props?.academics?.todays_absent_summary);
+    // }
+    // if (
+    //   this?.props?.academics?.late_staff_summary &&
+    //   prevProps?.academics?.late_staff_summary?.length !==
+    //     this?.props?.academics?.late_staff_summary?.length
+    // ) {
+    //   this.constructDataTable(this?.props?.academics?.late_staff_summary);
+    // }
     if (
       prevProps?.auth?.selectedCampusDetails?.campus_id !==
       this?.props?.auth?.selectedCampusDetails?.campus_id
@@ -175,17 +188,12 @@ class Academics extends Component {
   constructDataTable(data) {
     if (data) {
       let finalizedDataTable = data.map(item => Object.values(item));
-      return finalizedDataTable;
+      if (finalizedDataTable.length > 0) {
+        return finalizedDataTable;
+      }
+      return [];
     }
-    return [
-      ['', '', '', ''],
-      ['', '', '', ''],
-      ['', '', '', ''],
-      ['', '', '', ''],
-      ['', '', '', ''],
-      ['', '', '', ''],
-      ['', '', '', ''],
-    ];
+    return [];
   }
 
   render() {
@@ -711,6 +719,7 @@ class Academics extends Component {
 }
 
 export default connect(state => {
+  // console.log('hr ==== ', state.academicsReducer);
   return {
     accounts: state.accountsReducer,
     auth: state.authReducer,

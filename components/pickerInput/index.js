@@ -31,7 +31,6 @@ class PickerInputExample extends Component {
     }
   }
   onValueChange2(value) {
-    console.log('vlue === ', value);
     this.props.dispatch(
       changeCampus({
         type: CHANGECAMPUS,

@@ -893,15 +893,17 @@ class Main extends Component {
                         alignItems: 'center',
                       }}
                       cardBody={[
-                        <H1
+                        <H3
                           style={{
                             width: '100%',
                             color: '#006add',
                             fontWeight: 'bold',
                             textAlign: 'center',
                           }}>
-                          -
-                        </H1>,
+                          {this?.props?.academics?.enquiries?.amount
+                            ? this?.props?.academics?.enquiries?.amount
+                            : '-'}
+                        </H3>,
                       ]}
                       cardBodyStyle={[{backgroundColor: 'white'}]}
                     />
@@ -943,7 +945,7 @@ class Main extends Component {
                         alignItems: 'center',
                       }}
                       cardBody={[
-                        <H1
+                        <H3
                           style={{
                             width: '100%',
                             color: '#006add',
@@ -953,7 +955,7 @@ class Main extends Component {
                           {this?.props?.academics?.admission?.amount
                             ? this?.props?.academics?.admission?.amount
                             : 0}
-                        </H1>,
+                        </H3>,
                       ]}
                     />
                   </View>
@@ -995,7 +997,7 @@ class Main extends Component {
                         alignItems: 'center',
                       }}
                       cardBody={[
-                        <H1
+                        <H3
                           style={{
                             width: '100%',
                             color: '#006add',
@@ -1005,7 +1007,7 @@ class Main extends Component {
                           {this?.props?.academics?.registration?.amount
                             ? this?.props?.academics?.registration?.amount
                             : 0}
-                        </H1>,
+                        </H3>,
                       ]}
                     />
                   </View>
@@ -1046,7 +1048,7 @@ class Main extends Component {
                         alignItems: 'center',
                       }}
                       cardBody={[
-                        <H1
+                        <H3
                           style={{
                             width: 'auto',
                             color: '#006add',
@@ -1056,7 +1058,7 @@ class Main extends Component {
                           {this?.props?.academics?.student_left?.amount
                             ? this?.props?.academics?.student_left?.amount
                             : 0}
-                        </H1>,
+                        </H3>,
                       ]}
                     />
                   </View>
