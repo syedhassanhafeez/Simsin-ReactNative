@@ -24,6 +24,7 @@ import PickerInput from '../pickerInput';
 import {ScrollView} from 'react-native';
 import {GETTOP5DEFAULTERSSUMMARY} from '../../constants';
 import {GETTOP5DEFAULTERSSUMMARYID} from '../../constants/ids';
+import {connect} from 'react-redux';
 
 class Fee extends Component {
   componentDidMount() {
