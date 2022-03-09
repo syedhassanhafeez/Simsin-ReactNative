@@ -11,19 +11,30 @@ async function apiRequest(
     console.log(`requestMethod === ${requestMethod}`);
     console.log(`requestHeaders === ${requestHeaders}`);
     console.log(`requestBody === ${requestBody}`);
-    const response = await fetch(`${baseURL}${requestUrl}`, {
-      method: requestMethod,
-      headers: {
-        'Content-Type': 'application/json',
-        ...requestHeaders,
-      },
-      body: JSON.stringify(requestBody),
-    });
+    let response;
+    if (requestMethod === 'GET') {
+      response = await fetch(`${baseURL}${requestUrl}`, {
+        method: requestMethod,
+        headers: {
+          'Content-Type': 'application/json',
+          ...requestHeaders,
+        },
+      });
+    } else {
+      response = await fetch(`${baseURL}${requestUrl}`, {
+        method: requestMethod,
+        headers: {
+          'Content-Type': 'application/json',
+          ...requestHeaders,
+        },
+        body: JSON.stringify(requestBody),
+      });
+    }
     let result = await response.json();
-    console.log('result === ', result);
+    console.log(`${baseURL}${requestUrl} url result === `, result);
     return result;
   } catch (ex) {
-    console.log('ex in api === ', ex);
+    console.log(`${baseURL}${requestUrl} ex in api === ${ex}`);
     return ex;
   }
 }

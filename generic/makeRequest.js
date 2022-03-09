@@ -19,7 +19,6 @@ const makeRequest =
     }
     apiRequest(requestUrl, requestMethod, constructHeaders, requestBody)
       .then(response => {
-        console.log('response === ', response);
         if (extraProps?.id) {
           dispatch({
             type: REQUESTEND,
@@ -35,6 +34,10 @@ const makeRequest =
         });
       })
       .catch(outerEx => {
+        console.log('actionType in error === ', {
+          requestDetails,
+          reducerDetails,
+        });
         if (extraProps?.id) {
           dispatch({
             type: REQUESTEND,

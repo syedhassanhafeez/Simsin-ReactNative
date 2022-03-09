@@ -23,7 +23,6 @@ export default class CustomTable extends Component {
         windowWidth / 4,
         windowWidth / 4,
       ],
-      DataTable: [...this.props.tableData.dataTable],
     };
   }
 
@@ -74,7 +73,19 @@ export default class CustomTable extends Component {
           />
           <Rows
             widthArr={state.widthArr}
-            data={state.DataTable}
+            data={
+              this?.props?.tableData?.dataTable?.length
+                ? [...this?.props?.tableData?.dataTable]
+                : [
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                  ]
+            }
             textStyle={styles.TableText}
           />
         </Table>

@@ -11,12 +11,10 @@ export default function (state = initialState, action) {
     case GETEMPLOYEESSUMMARY:
       return {
         ...state,
-        total_staff:
-          action?.payload?.responsePayload?.responsePayload?.total_staff,
+        total_staff: action?.payload?.responsePayload?.response?.total_staff,
         todays_absent:
-          action?.payload?.responsePayload?.responsePayload?.todays_absent,
-        todays_late:
-          action?.payload?.responsePayload?.responsePayload?.todays_late,
+          action?.payload?.responsePayload?.response?.todays_absent,
+        todays_late: action?.payload?.responsePayload?.response?.todays_late,
       };
     default:
       return state;

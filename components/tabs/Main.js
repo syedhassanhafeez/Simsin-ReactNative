@@ -42,10 +42,12 @@ import {
   feeSummary,
   genericAction,
   totalCollectionMonthwise,
+  totalReceivables,
 } from '../../redux/actions';
 import {
   FEESUMMARY,
   GETADMISSIONLEFT,
+  GETEMPLOYEESSUMMARY,
   GETTOP5DEFAULTERS,
   TOTALCOLLECTIONMONTHWISE,
   TOTALRECEIVABLES,
@@ -53,6 +55,7 @@ import {
 import {
   FEESUMMARYID,
   GETADMISSIONLEFTID,
+  GETEMPLOYEESSUMMARYID,
   GETTOP5DEFAULTERSID,
   TOTALCOLLECTIONMONTHWISEID,
   TOTALRECEIVABLESID,
@@ -60,110 +63,224 @@ import {
 
 class Main extends Component {
   componentDidMount() {
-    this.props.dispatch(
-      feeSummary({
-        requestDetails: {
-          requestUrl: '/fee/get_fee_summary',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+    if (this?.props?.auth?.selectedCampusDetails?.campus_id) {
+      this.props.dispatch(
+        feeSummary({
+          requestDetails: {
+            requestUrl: `/fee/get_fee_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: FEESUMMARY,
-          extraProps: {id: FEESUMMARYID},
-        },
-      }),
-    );
-    this.props.dispatch(
-      totalReceivables({
-        requestDetails: {
-          requestUrl: '/fee/get_total_receivable',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+          reducerDetails: {
+            actionType: FEESUMMARY,
+            extraProps: {id: FEESUMMARYID},
           },
-        },
-        reducerDetails: {
-          actionType: TOTALRECEIVABLES,
-          extraProps: {id: TOTALRECEIVABLESID},
-        },
-      }),
-    );
-    this.props.dispatch(
-      totalCollectionMonthwise({
-        requestDetails: {
-          requestUrl: '/fee/get_total_collection_monthwise',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+        }),
+      );
+      this.props.dispatch(
+        totalReceivables({
+          requestDetails: {
+            requestUrl: `/fee/get_total_receivable?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: TOTALCOLLECTIONMONTHWISE,
-          extraProps: {id: TOTALCOLLECTIONMONTHWISEID},
-        },
-      }),
-    );
+          reducerDetails: {
+            actionType: TOTALRECEIVABLES,
+            extraProps: {id: TOTALRECEIVABLESID},
+          },
+        }),
+      );
+      this.props.dispatch(
+        totalCollectionMonthwise({
+          requestDetails: {
+            requestUrl: `/fee/get_total_collection_monthwise?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: TOTALCOLLECTIONMONTHWISE,
+            extraProps: {id: TOTALCOLLECTIONMONTHWISEID},
+          },
+        }),
+      );
 
-    this.props.dispatch(
-      genericAction({
-        requestDetails: {
-          requestUrl: '/fee/get_admission_left',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_admission_left?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: GETADMISSIONLEFT,
-          extraProps: {id: GETADMISSIONLEFTID},
-        },
-      }),
-    );
+          reducerDetails: {
+            actionType: GETADMISSIONLEFT,
+            extraProps: {id: GETADMISSIONLEFTID},
+          },
+        }),
+      );
 
-    this.props.dispatch(
-      genericAction({
-        requestDetails: {
-          requestUrl: '/fee/get_top_five_defaulters_count',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_top_five_defaulters_count?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: GETTOP5DEFAULTERS,
-          extraProps: {id: GETTOP5DEFAULTERSID},
-        },
-      }),
-    );
+          reducerDetails: {
+            actionType: GETTOP5DEFAULTERS,
+            extraProps: {id: GETTOP5DEFAULTERSID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_employee_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETEMPLOYEESSUMMARY,
+            extraProps: {id: GETEMPLOYEESSUMMARYID},
+          },
+        }),
+      );
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps?.auth?.selectedCampusDetails?.campus_id !==
+      this?.props?.auth?.selectedCampusDetails?.campus_id
+    ) {
+      this.props.dispatch(
+        feeSummary({
+          requestDetails: {
+            requestUrl: `/fee/get_fee_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: FEESUMMARY,
+            extraProps: {id: FEESUMMARYID},
+          },
+        }),
+      );
+      this.props.dispatch(
+        totalReceivables({
+          requestDetails: {
+            requestUrl: `/fee/get_total_receivable?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: TOTALRECEIVABLES,
+            extraProps: {id: TOTALRECEIVABLESID},
+          },
+        }),
+      );
+      this.props.dispatch(
+        totalCollectionMonthwise({
+          requestDetails: {
+            requestUrl: `/fee/get_total_collection_monthwise?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: TOTALCOLLECTIONMONTHWISE,
+            extraProps: {id: TOTALCOLLECTIONMONTHWISEID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_admission_left?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETADMISSIONLEFT,
+            extraProps: {id: GETADMISSIONLEFTID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_top_five_defaulters_count?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTOP5DEFAULTERS,
+            extraProps: {id: GETTOP5DEFAULTERSID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/employee/get_employee_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETEMPLOYEESSUMMARY,
+            extraProps: {id: GETEMPLOYEESSUMMARYID},
+          },
+        }),
+      );
+    }
+  }
+
+  constructData(data) {
+    if (data) {
+      let finalizedData = Object.values(data).map(item => {
+        return item ? parseInt(item?.replace(/,/g, '')) : 0;
+      });
+      return finalizedData.slice(10);
+    }
+    return [];
+  }
+
+  constructLabels(label) {
+    if (label) {
+      let finalizedLabel = Object.keys(label);
+      return finalizedLabel.slice(10);
+    }
+    return [];
   }
 
   render() {
     let screenWidth = Dimensions.get('window').width;
-    let totalReceivableGraphLabels = this.props?.accounts?.totalReceivables
-      ? Object.keys(this.props.accounts.totalReceivables)
-      : [];
-    let totalReceivableGraphData = this.props?.accounts?.totalReceivables
-      ? Object.values(this.props.accounts.totalReceivables).map(item => {
-          return parseInt(item.replaceAll(',', ''));
-        })
-      : [];
-    let totalCollectionMonthwiseGraphLabels = this.props?.accounts
-      ?.totalReceivables
-      ? Object.keys(this.props.accounts.totalReceivables)
-      : [];
-    let totalCollectionMonthwiseGraphData = this.props?.accounts
-      ?.totalReceivables
-      ? Object.values(this.props.accounts.totalReceivables).map(item => {
-          return parseInt(item.replaceAll(',', ''));
-        })
-      : [];
+    let totalReceivableGraphLabels = this.constructLabels(
+      this.props?.accounts?.totalReceivables,
+    );
+    let totalReceivableGraphData = this.constructData(
+      this.props?.accounts?.totalReceivables,
+    );
+    let totalCollectionMonthwiseGraphLabels = this.constructLabels(
+      this.props?.accounts?.totalCollectionMonthwise,
+    );
+    let totalCollectionMonthwiseGraphData = this.constructData(
+      this.props?.accounts?.totalCollectionMonthwise,
+    );
     const data = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June'],
       datasets: [
@@ -193,7 +310,9 @@ class Main extends Component {
                       color: 'white',
                       fontWeight: 'bold',
                       fontSize: 35,
-                    }}>{`65,520`}</Text>{' '}
+                    }}>
+                    {this.props.accounts.todays_collection}
+                  </Text>{' '}
                 </Text>,
               ]}
               headerStyle={{
@@ -243,7 +362,7 @@ class Main extends Component {
                     style={{
                       width: '100%',
                       color: '#006add',
-                      fontSize: 18,
+                      fontSize: 14,
                       fontWeight: 'bold',
                       textAlign: 'center',
                       marginTop: -10,
@@ -277,7 +396,7 @@ class Main extends Component {
                     style={{
                       width: '100%',
                       color: '#006add',
-                      fontSize: 18,
+                      fontSize: 14,
                       fontWeight: 'bold',
                       textAlign: 'center',
                       marginTop: -10,
@@ -311,7 +430,7 @@ class Main extends Component {
                     style={{
                       width: '100%',
                       color: '#006add',
-                      fontSize: 18,
+                      fontSize: 14,
                       fontWeight: 'bold',
                       textAlign: 'center',
                       marginTop: -10,
@@ -356,12 +475,21 @@ class Main extends Component {
                 alignItems: 'center',
               }}
               cardBody={[
-                <CustomBarGraph
-                  graphData={{
-                    labels: totalReceivableGraphLabels,
-                    data: totalReceivableGraphData,
-                  }}
-                />,
+                // <H1>123</H1>,
+                totalReceivableGraphLabels ? (
+                  <CustomBarGraph
+                    graphData={{
+                      labels: totalReceivableGraphLabels
+                        ? totalReceivableGraphLabels
+                        : [],
+                      data: totalReceivableGraphData
+                        ? totalReceivableGraphData
+                        : [],
+                    }}
+                  />
+                ) : (
+                  <></>
+                ),
               ]}
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />
@@ -399,17 +527,26 @@ class Main extends Component {
                 </Text>,
               ]}
               cardBody={[
-                <CustomLineGraph2
-                  graphData={{
-                    labels: totalCollectionMonthwiseGraphLabels,
-                    data: totalCollectionMonthwiseGraphData,
-                  }}
-                />,
+                // <H1>456</H1>,
+                totalCollectionMonthwiseGraphLabels.length > 0 ? (
+                  <CustomLineGraph2
+                    graphData={{
+                      labels: totalCollectionMonthwiseGraphLabels
+                        ? totalCollectionMonthwiseGraphLabels
+                        : [],
+                      data: totalCollectionMonthwiseGraphData
+                        ? totalCollectionMonthwiseGraphData
+                        : [],
+                    }}
+                  />
+                ) : (
+                  <></>
+                ),
               ]}
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />
           </View>
-          <View>
+          {/* <View>
             <CardItemBordered
               cardStyle={{
                 marginLeft: 0,
@@ -519,9 +656,7 @@ class Main extends Component {
                         borderBottomWidth: 4,
                       }}
                       headerText={[
-                        <Text style={{fontSize: 13, color: 'grey'}}>
-                          Admissions
-                        </Text>,
+                        <Text style={{fontSize: 13, color: 'grey'}}>Adm.</Text>,
                       ]}
                       viewButton={[
                         <Text
@@ -571,9 +706,7 @@ class Main extends Component {
                         borderBottomWidth: 4,
                       }}
                       headerText={[
-                        <Text style={{fontSize: 13, color: 'grey'}}>
-                          Registeration
-                        </Text>,
+                        <Text style={{fontSize: 13, color: 'grey'}}>Reg.</Text>,
                       ]}
                       viewButton={[
                         <Text
@@ -582,7 +715,9 @@ class Main extends Component {
                             fontWeight: 'bold',
                             color: '#37b349',
                           }}>
-                          10
+                          {this?.props?.academics?.registration?.amount
+                            ? this?.props?.academics?.registration?.amount
+                            : 0}
                         </Text>,
                       ]}
                       useOtherTag={true}
@@ -603,7 +738,9 @@ class Main extends Component {
                             fontWeight: 'bold',
                             textAlign: 'center',
                           }}>
-                          25,500
+                          {this?.props?.academics?.registration?.amount
+                            ? this?.props?.academics?.registration?.amount
+                            : 0}
                         </H1>,
                       ]}
                     />
@@ -656,6 +793,272 @@ class Main extends Component {
                             ? this?.props?.academics?.student_left?.amount
                             : 0}
                         </H1>,
+                      ]}
+                    />
+                  </View>
+                </ScrollView>,
+              ]}
+              cardBodyStyle={[
+                {
+                  backgroundColor: '#006add',
+                  height: 'auto',
+                },
+              ]}
+            />
+          </View> */}
+          <View>
+            <CardItemBordered
+              cardStyle={{
+                marginLeft: 0,
+                marginRight: 0,
+                marginTop: 0,
+                marginBottom: 0,
+                textAlign: 'center',
+                backgroundColor: '#006add',
+              }}
+              headerText={[
+                <Text style={{color: 'white', width: '100%'}}>
+                  {'Admission & Left'}
+                </Text>,
+              ]}
+              viewButton={[
+                <Button
+                  // onPress={() => { this.scroll.scrollTo({ x: screenWidth }) }}
+                  active
+                  onPress={() => this.props.onTabPress(3)}
+                  iconRight
+                  small
+                  success
+                  style={{width: '100%', borderRadius: 8}}>
+                  <Text style={{textTransform: 'capitalize'}}>View More</Text>
+                  <Icon
+                    name="chevron-forward"
+                    style={{marginLeft: -20, fontSize: 20}}
+                  />
+                </Button>,
+              ]}
+              headerStyle={{
+                flexDirection: 'row',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+              useOtherTag={true}
+              cardBody={[
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    textAlign: 'center',
+                  }}
+                  // ref={(node) => this.scroll = node}
+                >
+                  <View style={{width: '25%'}}>
+                    <CardItemBordered
+                      cardStyle={{
+                        shadowOpacity: 0.3,
+                        elevation: 10,
+                        borderRadius: 8,
+                        borderBottomColor: '#37b349',
+                        borderBottomWidth: 4,
+                      }}
+                      headerText={[
+                        <Text style={{fontSize: 13, color: 'grey'}}>
+                          Enquiries
+                        </Text>,
+                      ]}
+                      viewButton={[
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            color: '#37b349',
+                          }}>
+                          {this?.props?.academics?.enquiries?.count
+                            ? this?.props?.academics?.enquiries?.count
+                            : 0}
+                        </Text>,
+                      ]}
+                      useOtherTag={true}
+                      headerStyle={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 0.7,
+                        flexDirection: 'row',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      cardBody={[
+                        <H3
+                          style={{
+                            width: '100%',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          {this?.props?.academics?.enquiries?.amount
+                            ? this?.props?.academics?.enquiries?.amount
+                            : '-'}
+                        </H3>,
+                      ]}
+                      cardBodyStyle={[{backgroundColor: 'white'}]}
+                    />
+                  </View>
+                  <View style={{width: '25%'}}>
+                    <CardItemBordered
+                      cardStyle={{
+                        shadowOpacity: 0.3,
+                        elevation: 10,
+                        borderRadius: 8,
+                        borderBottomColor: '#37b349',
+                        borderBottomWidth: 4,
+                      }}
+                      headerText={[
+                        <Text style={{fontSize: 13, color: 'grey'}}>
+                          Admissions
+                        </Text>,
+                      ]}
+                      viewButton={[
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            color: '#37b349',
+                          }}>
+                          {this?.props?.academics?.admission?.count
+                            ? this?.props?.academics?.admission?.count
+                            : 0}
+                        </Text>,
+                      ]}
+                      useOtherTag={true}
+                      headerStyle={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 0.7,
+                        flexDirection: 'row',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      cardBody={[
+                        <H3
+                          style={{
+                            width: '100%',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          {this?.props?.academics?.admission?.amount
+                            ? this?.props?.academics?.admission?.amount
+                            : 0}
+                        </H3>,
+                      ]}
+                    />
+                  </View>
+
+                  <View style={{width: '25%'}}>
+                    <CardItemBordered
+                      cardStyle={{
+                        shadowOpacity: 0.3,
+                        elevation: 10,
+                        borderRadius: 8,
+                        borderBottomColor: '#37b349',
+                        borderBottomWidth: 4,
+                      }}
+                      headerText={[
+                        <Text style={{fontSize: 13, color: 'grey'}}>
+                          Registeration
+                        </Text>,
+                      ]}
+                      viewButton={[
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            color: '#37b349',
+                          }}>
+                          {this?.props?.academics?.registration?.count
+                            ? this?.props?.academics?.registration?.count
+                            : 0}
+                        </Text>,
+                      ]}
+                      useOtherTag={true}
+                      headerStyle={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 0.7,
+                        flexDirection: 'row',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      cardBody={[
+                        <H3
+                          style={{
+                            width: '100%',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          {this?.props?.academics?.registration?.amount
+                            ? this?.props?.academics?.registration?.amount
+                            : 0}
+                        </H3>,
+                      ]}
+                    />
+                  </View>
+                  <View style={{width: '25%'}}>
+                    <CardItemBordered
+                      cardStyle={{
+                        shadowOpacity: 0.3,
+                        elevation: 10,
+                        borderRadius: 8,
+                        borderBottomColor: '#37b349',
+                        borderBottomWidth: 4,
+                      }}
+                      headerText={[
+                        <Text style={{fontSize: 13, color: 'grey'}}>
+                          Stu. Left
+                        </Text>,
+                      ]}
+                      viewButton={[
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            color: '#37b349',
+                          }}>
+                          {this?.props?.academics?.student_left?.count
+                            ? this?.props?.academics?.student_left?.count
+                            : 0}
+                        </Text>,
+                      ]}
+                      useOtherTag={true}
+                      headerStyle={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 0.7,
+                        flexDirection: 'row',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      cardBody={[
+                        <H3
+                          style={{
+                            width: 'auto',
+                            color: '#006add',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          {this?.props?.academics?.student_left?.amount
+                            ? this?.props?.academics?.student_left?.amount
+                            : 0}
+                        </H3>,
                       ]}
                     />
                   </View>
@@ -912,7 +1315,6 @@ class Main extends Component {
 }
 
 export default connect(state => {
-  console.log('state === ', state);
   return {
     accounts: state.accountsReducer,
     auth: state.authReducer,

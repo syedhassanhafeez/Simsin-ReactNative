@@ -1,6 +1,7 @@
 import {
   FEESUMMARY,
   GETRECEIVABLECOLLECTION,
+  GETTOP5DEFAULTERS,
   GETTOP5DEFAULTERSSUMMARY,
   TOTALCOLLECTIONMONTHWISE,
   TOTALRECEIVABLES,
@@ -23,22 +24,19 @@ export default function (state = initialState, action) {
     case FEESUMMARY:
       return {
         ...state,
-        todays_collection: action?.payload?.responsePayload?.responsePayload
+        todays_collection: action?.payload?.responsePayload?.response
           ?.todays_collection
-          ? action?.payload?.responsePayload?.responsePayload?.todays_collection
+          ? action?.payload?.responsePayload?.response?.todays_collection
           : 0,
-        monthly_fee: action?.payload?.responsePayload?.responsePayload
-          ?.monthly_fee
-          ? action?.payload?.responsePayload?.responsePayload?.monthly_fee
+        monthly_fee: action?.payload?.responsePayload?.response?.monthly_fee
+          ? action?.payload?.responsePayload?.response?.monthly_fee
           : 0,
-        monthly_collection: action?.payload?.responsePayload?.responsePayload
+        monthly_collection: action?.payload?.responsePayload?.response
           ?.monthly_collection
-          ? action?.payload?.responsePayload?.responsePayload
-              ?.monthly_collection
+          ? action?.payload?.responsePayload?.response?.monthly_collection
           : 0,
-        receivable: action?.payload?.responsePayload?.responsePayload
-          ?.receivable
-          ? action?.payload?.responsePayload?.responsePayload?.receivable
+        receivable: action?.payload?.responsePayload?.response?.receivable
+          ? action?.payload?.responsePayload?.response?.receivable
           : 0,
       };
     case TOTALRECEIVABLES:
@@ -62,6 +60,9 @@ export default function (state = initialState, action) {
           action?.payload?.responsePayload?.response?.top_five_defaulters_count,
       };
     case GETTOP5DEFAULTERSSUMMARY:
+      console.log(
+        `GETTOP5DEFAULTERSSUMMARY action?.payload?.responsePayload?.response === ${action?.payload?.responsePayload?.response}`,
+      );
       return {
         ...state,
         top_five_defaulters_summary: action?.payload?.responsePayload?.response

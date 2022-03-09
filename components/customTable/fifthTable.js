@@ -15,27 +15,30 @@ export default class CustomTable5 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      HeadTable: ['Emp.ID', 'Name', 'Desig.','No. of Late'],
+      HeadTable: ['Emp.ID', 'Name', 'Desig.', 'No. of Late'],
       widthArr: [
         windowWidth / 4.5,
         windowWidth / 3,
         windowWidth / 4,
         windowWidth / 5,
       ],
-      DataTable: [
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-        ['', '', '', ''],
-      ],
+      DataTable: this?.props?.tableData?.dataTable
+        ? [...this?.props?.tableData?.dataTable]
+        : [
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+          ],
     };
   }
 
   render() {
     const state = this.state;
+    console.log('this?.props?.tableData === ', this?.props?.tableData);
     return (
       <View style={styles.container}>
         <Table
@@ -51,7 +54,19 @@ export default class CustomTable5 extends Component {
           />
           <Rows
             widthArr={state.widthArr}
-            data={state.DataTable}
+            data={
+              this?.props?.tableData?.dataTable?.length
+                ? [...this?.props?.tableData?.dataTable]
+                : [
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                    ['', '', '', ''],
+                  ]
+            }
             textStyle={styles.TableText}
           />
         </Table>

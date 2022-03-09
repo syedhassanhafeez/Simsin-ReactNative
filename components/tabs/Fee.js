@@ -18,6 +18,7 @@ import {
   Button,
 } from 'native-base';
 import CustomTable from '../customTable';
+import {connect} from 'react-redux';
 import {CustomBarGraph, CustomLineGraph} from '../graphs';
 import CardItemBordered from '../cards/CardItemBordered';
 import PickerInput from '../pickerInput';
@@ -28,23 +29,88 @@ import {connect} from 'react-redux';
 
 class Fee extends Component {
   componentDidMount() {
-    this.props.dispatch(
-      genericAction({
-        requestDetails: {
-          requestUrl: '/fee/get_top_five_defaulters_summary',
-          requestMethod: 'POST',
-          requestHeaders: {},
-          requestBody: {
-            campus_id: this?.props?.auth?.selectedCampusDetails?.id,
+    if (this?.props?.auth?.selectedCampusDetails?.campus_id) {
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_top_five_defaulters_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
           },
-        },
-        reducerDetails: {
-          actionType: GETTOP5DEFAULTERSSUMMARY,
-          extraProps: {id: GETTOP5DEFAULTERSSUMMARYID},
-        },
-      }),
-    );
+          reducerDetails: {
+            actionType: GETTOP5DEFAULTERSSUMMARY,
+            extraProps: {id: GETTOP5DEFAULTERSSUMMARYID},
+          },
+        }),
+      );
+
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_tf_comparison?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTFCOMPARISON,
+            extraProps: {id: GETTFCOMPARISONID},
+          },
+        }),
+      );
+    }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps?.auth?.selectedCampusDetails?.campus_id !==
+      this?.props?.auth?.selectedCampusDetails?.campus_id
+    ) {
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_top_five_defaulters_summary?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTOP5DEFAULTERSSUMMARY,
+            extraProps: {id: GETTOP5DEFAULTERSSUMMARYID},
+          },
+        }),
+      );
+      this.props.dispatch(
+        genericAction({
+          requestDetails: {
+            requestUrl: `/fee/get_tf_comparison?campus_id=${this?.props?.auth?.selectedCampusDetails?.campus_id}`,
+            requestMethod: 'GET',
+            requestHeaders: {},
+            requestBody: {},
+          },
+          reducerDetails: {
+            actionType: GETTFCOMPARISON,
+            extraProps: {id: GETTFCOMPARISONID},
+          },
+        }),
+      );
+    }
+  }
+
+  constructDataTable(data) {
+    console.log('data === ', data);
+
+    if (data) {
+      let finalizedDataTable = data.map(item => Object.values(item));
+      if (finalizedDataTable.length > 0) {
+        return finalizedDataTable;
+      }
+      return [];
+    }
+    return [];
+  }
+
   render() {
     // let receivableCollectionGraphLabels = this.props?.accounts?.receivable_collection
     //   ? Object.keys(this.props.accounts.receivable_collection)
@@ -54,6 +120,10 @@ class Fee extends Component {
     //       return parseInt(item.replaceAll(',', ''));
     //     })
     //   : [];
+    let top5DefaultersSummaryData = this.constructDataTable(
+      this?.props?.accounts?.top_five_defaulters_summary,
+    );
+    console.log('top5DefaultersSummaryData === ', top5DefaultersSummaryData);
     return (
       <View style={{backgroundColor: 'white'}}>
         {/* <PickerInput /> */}
@@ -95,7 +165,11 @@ class Fee extends Component {
                 }}
                 useOtherTag={true}
                 headerText={[
-                  <CustomTable tableData={{dataTable: tableData}} />,
+                  <CustomTable
+                    tableData={{
+                      dataTable: top5DefaultersSummaryData,
+                    }}
+                  />,
                 ]}
                 headerStyle={{
                   textAlign: 'center',
@@ -149,11 +223,11 @@ class Fee extends Component {
                 marginBottom: 0,
                 textAlign: 'center',
               }}
-              headerText={[
-                <Text style={{color: '#006add', fontWeight: 'bold'}}>
-                  {'Bill Vs Collection'}
-                </Text>,
-              ]}
+              // headerText={[
+              //   <Text style={{color: '#006add', fontWeight: 'bold'}}>
+              //     {'Bill Vs Collection'}
+              //   </Text>,
+              // ]}
               headerStyle={{
                 flexDirection: 'row',
                 width: '100%',
@@ -164,20 +238,21 @@ class Fee extends Component {
               headerText={[
                 <Text style={{color: '#006add'}}>{'Bill Vs Collection'}</Text>,
               ]}
-              headerStyle={{
-                flexDirection: 'row',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
+              // headerStyle={{
+              //   flexDirection: 'row',
+              //   width: '100%',
+              //   display: 'flex',
+              //   justifyContent: 'space-between',
+              //   alignItems: 'center',
+              // }}
               cardBody={[
-                <CustomLineGraph
-                  graphData={{
-                    labels: totalReceivableGraphLabels,
-                    data: totalReceivableGraphData,
-                  }}
-                />,
+                <H1>789</H1>,
+                // <CustomLineGraph
+                //   graphData={{
+                //     labels: totalReceivableGraphLabels,
+                //     data: totalReceivableGraphData,
+                //   }}
+                // />,
               ]}
               cardBodyStyle={[{backgroundColor: 'white'}]}
             />
@@ -232,7 +307,7 @@ class Fee extends Component {
                             color: '#006add',
                             fontWeight: 'bold',
                           }}>
-                          {'\n435,345'}
+                          {`\n${this.props.fee.last_month_collection}`}
                         </H1>,
                       ]}
                       headerStyle={{
@@ -264,7 +339,7 @@ class Fee extends Component {
                             color: '#006add',
                             fontWeight: 'bold',
                           }}>
-                          {'\n435,345'}
+                          {`\n${this.props.fee.this_month_collection}`}
                         </H1>,
                       ]}
                       headerStyle={{
@@ -308,11 +383,11 @@ class Fee extends Component {
   }
 }
 export default connect(state => {
-  console.log('state === ', state);
   return {
     accounts: state.accountsReducer,
     auth: state.authReducer,
-    academics: state.academicsReducer,
-    hr: state.hrReducer,
+    fee: state.feeReducer,
+    // academics: state.academicsReducer,
+    // hr: state.hrReducer,
   };
 })(Fee);

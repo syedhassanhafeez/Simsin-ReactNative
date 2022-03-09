@@ -40,7 +40,9 @@ export default class CardItemBordered extends Component {
                       this.props.headerStyle ? {...this.props.headerStyle} : {}
                     }>
                     <Text>{this.props.headerText[index]}</Text>
-                    <Text>{this.props.viewButton[index]}</Text>
+                    <Text style={{marginLeft: 10}}>
+                      {this.props.viewButton[index]}
+                    </Text>
                   </View>
                 ) : (
                   <Text

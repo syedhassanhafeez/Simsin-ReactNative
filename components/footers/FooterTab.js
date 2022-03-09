@@ -117,7 +117,6 @@ export default class FooterTabs extends Component {
                 vertical
                 active={this.state.activeTab === index}
                 onPress={() => this.onTabPress(index)}>
-                {console.log(`${item.iconName} ${item.iconType}`)}
                 <Icon name={item.iconName} type={item.iconType} />
                 {/* <Text>{item.textName}</Text> */}
               </Button>

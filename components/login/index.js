@@ -95,7 +95,10 @@ class Login extends Component {
     let email = this.state.email;
     // let password = this.state.code_one + this.state.code_two + this.state.code_three + this.state.code_four;
     let password = this.state.password;
+<<<<<<< HEAD
     console.log({ email, password });
+=======
+>>>>>>> 7337c162076ccf92e1ef14bbe363d1530fd70403
     if (email && password) {
       // if validation fails, value will be null
 
